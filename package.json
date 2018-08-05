@@ -1,0 +1,56 @@
+{
+  "name": "doowit-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "parcel ./src/index.html --open",
+    "build": "parcel build ./src/index.html",
+    "graphql:generate-types": "apollo codegen:generate --addTypename --passthroughCustomScalars --globalTypesFile ./src/__generated__/globalTypes.ts --target typescript",
+    "lint": "tslint --config tslint.json --project tsconfig.json './src/**/*.{ts,tsx}'",
+    "precommit": "lint-staged"
+  },
+  "alias": {
+    "components": "./src/components/"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "3.5.1",
+    "@blueprintjs/icons": "3.1.0",
+    "apollo-cache-inmemory": "1.2.9",
+    "apollo-client": "2.4.1",
+    "apollo-link": "1.2.2",
+    "apollo-link-http": "1.5.4",
+    "apollo-link-ws": "1.0.8",
+    "apollo-utilities": "1.0.20",
+    "components": "0.1.0",
+    "formik": "1.2.0",
+    "graphql": "0.13.2",
+    "graphql-tag": "2.9.2",
+    "react": "16.5.0",
+    "react-apollo": "2.1.11",
+    "react-dom": "16.5.0",
+    "styled-components": "4.0.0-beta.0",
+    "subscriptions-transport-ws": "0.9.14"
+  },
+  "devDependencies": {
+    "@types/node": "10.9.4",
+    "@types/react": "16.4.13",
+    "@types/react-dom": "16.0.7",
+    "apollo": "1.9.1",
+    "husky": "0.14.3",
+    "lint-staged": "7.2.2",
+    "node-sass": "4.9.3",
+    "parcel-bundler": "1.9.7",
+    "parcel-plugin-typescript": "1.0.0",
+    "prettier": "1.14.2",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.15.0",
+    "tslint-react": "3.6.0",
+    "typescript": "3.0.3"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx,json,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

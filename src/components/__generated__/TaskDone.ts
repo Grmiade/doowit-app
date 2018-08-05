@@ -1,0 +1,16 @@
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL subscription operation: TaskDone
+// ====================================================
+
+export interface TaskDone_taskDone {
+  __typename: 'Task'
+  id: string
+  done: boolean
+}
+
+export interface TaskDone {
+  taskDone: TaskDone_taskDone
+}

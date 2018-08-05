@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "jsx": "react",
+    "lib": ["dom", "es2017", "esnext.asynciterable"],
+    "module": "esnext",
+    "rootDir": "./src",
+    "target": "es5"
+  }
+}
