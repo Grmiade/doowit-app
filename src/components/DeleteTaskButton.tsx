@@ -21,27 +21,29 @@ interface DeleteTaskButtonProps {
   taskId: string
 }
 
-const DeleteTaskButton: React.StatelessComponent<DeleteTaskButtonProps> = props => (
-  <Mutation<DeleteTask, DeleteTaskVariables>
-    awaitRefetchQueries
-    mutation={DELETE_TASK}
-    variables={{ id: props.taskId }}
-    refetchQueries={[{ query: GET_TASKS }]}
-  >
-    {(deleteTask, { loading }) => (
-      <Button
-        small
-        className={props.className}
-        loading={loading}
-        icon={IconNames.TRASH}
-        intent={Intent.DANGER}
-        onClick={event => {
-          event.stopPropagation()
-          deleteTask()
-        }}
-      />
-    )}
-  </Mutation>
-)
+function DeleteTaskButton(props: DeleteTaskButtonProps) {
+  return (
+    <Mutation<DeleteTask, DeleteTaskVariables>
+      awaitRefetchQueries
+      mutation={DELETE_TASK}
+      variables={{ id: props.taskId }}
+      refetchQueries={[{ query: GET_TASKS }]}
+    >
+      {(deleteTask, { loading }) => (
+        <Button
+          small
+          className={props.className}
+          loading={loading}
+          icon={IconNames.TRASH}
+          intent={Intent.DANGER}
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation()
+            deleteTask()
+          }}
+        />
+      )}
+    </Mutation>
+  )
+}
 
 export default DeleteTaskButton

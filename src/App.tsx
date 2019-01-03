@@ -38,15 +38,17 @@ const link = split(
 const client = new ApolloClient({ link, cache: new InMemoryCache() })
 
 const Layout = styled.div`
-  margin: 3em;
+  margin: 4em;
 `
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <Layout>
-      <TasksView />
-    </Layout>
-  </ApolloProvider>
-)
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <Layout>
+        <TasksView />
+      </Layout>
+    </ApolloProvider>
+  )
+}
 
 export default App

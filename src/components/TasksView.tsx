@@ -52,10 +52,9 @@ export default class TasksView extends React.Component {
       document: TASK_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        const newTask = subscriptionData.data.taskCreated
         return {
           ...prev,
-          tasks: [...prev.tasks, newTask],
+          tasks: [...prev.tasks, subscriptionData.data.taskCreated],
         }
       },
     })
@@ -66,10 +65,9 @@ export default class TasksView extends React.Component {
       document: TASK_DELETED,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        const taskToDelete = subscriptionData.data.taskDeleted
         return {
           ...prev,
-          tasks: prev.tasks.filter(task => task.id !== taskToDelete.id),
+          tasks: prev.tasks.filter(task => task.id !== subscriptionData.data.taskDeleted.id),
         }
       },
     })
