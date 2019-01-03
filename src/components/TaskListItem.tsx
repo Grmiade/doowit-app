@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text } from '@blueprintjs/core'
+import { Classes, Text } from '@blueprintjs/core'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
@@ -33,7 +33,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
     fragment TaskItemFragment on Task {
       id
       done
-      message
+      message @defer
     }
   `
 
@@ -46,7 +46,9 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
           const disabled = loading || isFakeId(task.id)
           return (
             <Task checked={task.done} disabled={disabled} onCheck={() => toogleTask()}>
-              <Text>{task.message}</Text>
+              <Text className={!task.message ? Classes.TEXT_MUTED : undefined}>
+                {task.message || 'Loading...'}
+              </Text>
               <StyledDeleteTaskButton disabled={disabled} taskId={task.id} />
             </Task>
           )
