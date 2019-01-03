@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Classes, Text } from '@blueprintjs/core'
+import { Text } from '@blueprintjs/core'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
@@ -9,6 +9,7 @@ import { TaskItem } from './__generated__/TaskItem'
 import { ToggleTask, ToggleTaskVariables } from './__generated__/ToggleTask'
 import DeleteTaskButton from './DeleteTaskButton'
 import Task from './Task'
+import { isFakeId } from '../utils'
 
 const StyledDeleteTaskButton = styled(DeleteTaskButton)`
   margin-left: auto;
@@ -41,12 +42,15 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
 
     return (
       <Mutation<ToggleTask, ToggleTaskVariables> mutation={TOGGLE_TASK} variables={{ id: task.id }}>
-        {(toogleTask, { loading }) => (
-          <Task checked={task.done} disabled={loading} onCheck={() => toogleTask()}>
-            <Text>{task.message}</Text>
-            <StyledDeleteTaskButton taskId={task.id} />
-          </Task>
-        )}
+        {(toogleTask, { loading }) => {
+          const disabled = loading || isFakeId(task.id)
+          return (
+            <Task checked={task.done} disabled={disabled} onCheck={() => toogleTask()}>
+              <Text>{task.message}</Text>
+              <StyledDeleteTaskButton disabled={disabled} taskId={task.id} />
+            </Task>
+          )
+        }}
       </Mutation>
     )
   }

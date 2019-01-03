@@ -18,6 +18,7 @@ const DELETE_TASK = gql`
 
 interface DeleteTaskButtonProps {
   className?: string
+  disabled?: boolean
   taskId: string
 }
 
@@ -33,6 +34,7 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
         <Button
           small
           className={props.className}
+          disabled={props.disabled}
           loading={loading}
           icon={IconNames.TRASH}
           intent={Intent.DANGER}
