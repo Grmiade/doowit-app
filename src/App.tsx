@@ -38,7 +38,7 @@ const link = split(
 const client = new ApolloClient({ link, cache: new InMemoryCache() })
 
 const Layout = styled.div`
-  margin: 4em;
+  margin: 3em;
 `
 
 function App() {
