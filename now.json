@@ -3,6 +3,14 @@
   "public": true,
   "name": "doowit-app",
   "type": "static",
+  "static": {
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
   "alias": "doowit.grmiade.tech",
   "env": {
     "GRAPHQL_URL": "https://doowit-server.grmiade.tech/graphql",

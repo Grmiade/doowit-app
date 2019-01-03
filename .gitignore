@@ -6,7 +6,7 @@ coverage/
 .env.test
 
 # production
-dist/
+public/
 
 # development
 .vscode/
