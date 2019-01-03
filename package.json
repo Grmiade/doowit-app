@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "parcel ./src/index.html --open",
-    "build": "parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html --out-dir public",
     "graphql:generate-types": "apollo client:codegen --addTypename --globalTypesFile ./src/__generated__/globalTypes.ts --passthroughCustomScalars --target typescript",
     "lint": "tslint --config tslint.json --project tsconfig.json './src/**/*.{ts,tsx}'",
     "precommit": "lint-staged"

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "public": true,
+  "name": "doowit-app",
+  "type": "static",
+  "alias": "doowit.grmiade.tech",
+  "env": {
+    "GRAPHQL_URL": "https://doowit-server.grmiade.tech/graphql",
+    "GRAPHQL_WEBSOCKET": "wss://doowit-server.grmiade.tech/graphql"
+  }
+}
