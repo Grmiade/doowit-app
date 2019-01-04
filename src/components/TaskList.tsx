@@ -8,8 +8,9 @@ import TaskListItem from './TaskListItem'
 
 interface TaskListProps {
   loading: boolean
-  subscribeToTaskDone: () => () => void
+  subscribeToNewTask: () => () => void
   subscribeToTaskDeleted: () => () => void
+  subscribeToTaskDone: () => () => void
   tasks: TaskItem[]
 }
 
@@ -33,17 +34,20 @@ export default class TaskList extends React.Component<TaskListProps> {
     return Intent.DANGER
   }
 
-  private unsubscribeToTaskDone: () => void
+  private unsubscribeToNewTask: () => void
   private unsubscribeToTaskDeleted: () => void
+  private unsubscribeToTaskDone: () => void
 
   public componentDidMount() {
-    this.unsubscribeToTaskDone = this.props.subscribeToTaskDone()
+    this.unsubscribeToNewTask = this.props.subscribeToNewTask()
     this.unsubscribeToTaskDeleted = this.props.subscribeToTaskDeleted()
+    this.unsubscribeToTaskDone = this.props.subscribeToTaskDone()
   }
 
   public componentWillUnmount() {
-    this.unsubscribeToTaskDone()
+    this.unsubscribeToNewTask()
     this.unsubscribeToTaskDeleted()
+    this.unsubscribeToTaskDone()
   }
 
   public render() {

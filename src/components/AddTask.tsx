@@ -20,27 +20,13 @@ const CREATE_TASK = gql`
   }
 `
 
-interface AddTaskProps {
-  subscribeToNewTask: () => () => void
-}
-
 interface AddTaskState {
   value: string
 }
 
-export default class AddTask extends React.Component<AddTaskProps, AddTaskState> {
-  private unsubscribeToNewTask: () => void
-
+export default class AddTask extends React.Component<{}, AddTaskState> {
   public state: AddTaskState = {
     value: '',
-  }
-
-  public componentDidMount() {
-    this.unsubscribeToNewTask = this.props.subscribeToNewTask()
-  }
-
-  public componentWillUnmount() {
-    this.unsubscribeToNewTask()
   }
 
   public render() {

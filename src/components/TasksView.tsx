@@ -7,6 +7,9 @@ import { Query } from 'react-apollo'
 import { GetTasks } from './__generated__/GetTasks'
 import AddTask from './AddTask'
 import TaskList from './TaskList'
+import { TaskCreated } from './__generated__/TaskCreated'
+import { TaskDeleted } from './__generated__/TaskDeleted'
+import { TaskDone } from './__generated__/TaskDone'
 
 export const GET_TASKS = gql`
   query GetTasks {
@@ -42,61 +45,54 @@ const TASK_DONE = gql`
   }
 `
 
-export default class TasksView extends React.Component {
-  private handleSubscribeToTaskDone = subscribeToMore => () => {
-    return subscribeToMore({ document: TASK_DONE })
-  }
+function TasksView() {
+  return (
+    <>
+      <H1>⏰ MY TASKS</H1>
+      <Query<GetTasks> query={GET_TASKS}>
+        {({ data, loading, error, subscribeToMore }) => {
+          if (error) return error.message
 
-  private handleSubscribeToNewTask = subscribeToMore => () => {
-    return subscribeToMore({
-      document: TASK_CREATED,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev
-        return {
-          ...prev,
-          tasks: [...prev.tasks, subscriptionData.data.taskCreated],
-        }
-      },
-    })
-  }
-
-  private handleSubscribeToTaskDeleted = subscribeToMore => () => {
-    return subscribeToMore({
-      document: TASK_DELETED,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev
-        return {
-          ...prev,
-          tasks: prev.tasks.filter(task => task.id !== subscriptionData.data.taskDeleted.id),
-        }
-      },
-    })
-  }
-
-  public render() {
-    return (
-      <>
-        <H1>⏰ MY TASKS</H1>
-        <Query<GetTasks> query={GET_TASKS}>
-          {({ data, loading, error, subscribeToMore }) => {
-            if (error) return error.message
-
-            return (
-              <>
-                <TaskList
-                  loading={loading}
-                  subscribeToTaskDone={this.handleSubscribeToTaskDone(subscribeToMore)}
-                  subscribeToTaskDeleted={this.handleSubscribeToTaskDeleted(subscribeToMore)}
-                  tasks={!loading ? data!.tasks : []}
-                />
-                {!loading && (
-                  <AddTask subscribeToNewTask={this.handleSubscribeToNewTask(subscribeToMore)} />
-                )}
-              </>
-            )
-          }}
-        </Query>
-      </>
-    )
-  }
+          return (
+            <>
+              <TaskList
+                loading={loading}
+                subscribeToNewTask={() =>
+                  subscribeToMore<TaskCreated>({
+                    document: TASK_CREATED,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData.data) return prev
+                      return {
+                        ...prev,
+                        tasks: [...prev.tasks, subscriptionData.data.taskCreated],
+                      }
+                    },
+                  })
+                }
+                subscribeToTaskDeleted={() =>
+                  subscribeToMore<TaskDeleted>({
+                    document: TASK_DELETED,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData.data) return prev
+                      return {
+                        ...prev,
+                        tasks: prev.tasks.filter(
+                          task => task.id !== subscriptionData.data.taskDeleted.id,
+                        ),
+                      }
+                    },
+                  })
+                }
+                subscribeToTaskDone={() => subscribeToMore<TaskDone>({ document: TASK_DONE })}
+                tasks={!loading ? data!.tasks : []}
+              />
+              {!loading && <AddTask />}
+            </>
+          )
+        }}
+      </Query>
+    </>
+  )
 }
+
+export default TasksView
