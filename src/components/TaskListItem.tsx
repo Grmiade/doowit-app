@@ -39,18 +39,26 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
 
   public render() {
     const { task } = this.props
+    const disabled = isFakeId(task.id)
 
     return (
-      <Mutation<ToggleTask, ToggleTaskVariables> mutation={TOGGLE_TASK} variables={{ id: task.id }}>
-        {(toogleTask, { loading }) => {
-          const disabled = loading || isFakeId(task.id)
-          return (
-            <Task checked={task.done} disabled={disabled} onCheck={() => toogleTask()}>
-              <Text>{task.message}</Text>
-              <StyledDeleteTaskButton disabled={disabled} taskId={task.id} />
-            </Task>
-          )
+      <Mutation<ToggleTask, ToggleTaskVariables>
+        mutation={TOGGLE_TASK}
+        optimisticResponse={{
+          toggleTask: {
+            __typename: 'Task',
+            done: !task.done,
+            id: task.id,
+          },
         }}
+        variables={{ id: task.id }}
+      >
+        {toogleTask => (
+          <Task checked={task.done} disabled={disabled} onCheck={() => toogleTask()}>
+            <Text>{task.message}</Text>
+            <StyledDeleteTaskButton disabled={disabled} taskId={task.id} />
+          </Task>
+        )}
       </Mutation>
     )
   }

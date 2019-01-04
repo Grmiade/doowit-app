@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
 import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask'
+import { GetTasks } from './__generated__/GetTasks'
 import { GET_TASKS } from './TasksView'
 
 const DELETE_TASK = gql`
@@ -25,10 +26,22 @@ interface DeleteTaskButtonProps {
 function DeleteTaskButton(props: DeleteTaskButtonProps) {
   return (
     <Mutation<DeleteTask, DeleteTaskVariables>
-      awaitRefetchQueries
       mutation={DELETE_TASK}
+      optimisticResponse={{
+        deleteTask: {
+          __typename: 'Task',
+          id: props.taskId,
+        },
+      }}
+      update={(proxy, { data }) => {
+        if (!data) return
+        const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
+        if (prev) {
+          const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id)
+          proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
+        }
+      }}
       variables={{ id: props.taskId }}
-      refetchQueries={[{ query: GET_TASKS }]}
     >
       {(deleteTask, { loading }) => (
         <Button

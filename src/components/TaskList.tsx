@@ -7,13 +7,17 @@ import { TaskItem } from './__generated__/TaskItem'
 import TaskListItem from './TaskListItem'
 
 interface TaskListProps {
-  loading?: boolean
+  loading: boolean
   subscribeToTaskDone: () => () => void
   subscribeToTaskDeleted: () => () => void
   tasks: TaskItem[]
 }
 
 export default class TaskList extends React.Component<TaskListProps> {
+  public static defaultProps = {
+    loading: false,
+  }
+
   public static fragment = gql`
     fragment TaskListFragment on Query {
       tasks {
@@ -43,7 +47,7 @@ export default class TaskList extends React.Component<TaskListProps> {
   }
 
   public render() {
-    const { loading = false, tasks } = this.props
+    const { loading, tasks } = this.props
 
     if (loading) return <ProgressBar animate stripes intent={Intent.NONE} value={1} />
 

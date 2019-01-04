@@ -5,10 +5,10 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
 import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask'
+import { GetTasks } from './__generated__/GetTasks'
 import Task from './Task'
 import { GET_TASKS } from './TasksView'
-// import { GetTasks } from './__generated__/GetTasks'
-// import { generateFakeId } from '../utils'
+import { generateFakeId } from '../utils'
 
 const CREATE_TASK = gql`
   mutation CreateTask($message: String!) {
@@ -48,29 +48,26 @@ export default class AddTask extends React.Component<AddTaskProps, AddTaskState>
 
     return (
       <Mutation<CreateTask, CreateTaskVariables>
-        awaitRefetchQueries
         mutation={CREATE_TASK}
-        refetchQueries={[{ query: GET_TASKS }]}
-        // optimisticResponse={{
-        //   __typename: 'Mutation',
-        //   createTask: {
-        //     __typename: 'Task',
-        //     done: false,
-        //     message: value,
-        //     id: generateFakeId(),
-        //   },
-        // }}
-        // update={(proxy, result) => {
-        //   if (!result.data) return
-        //   const data = proxy.readQuery<GetTasks>({ query: GET_TASKS })
-        //   if (data) {
-        //     const alreadyExist = data.tasks.some(task => task.id === result.data!.createTask.id)
-        //     if (alreadyExist) return
+        optimisticResponse={{
+          createTask: {
+            __typename: 'Task',
+            done: false,
+            message: value,
+            id: generateFakeId(),
+          },
+        }}
+        update={(proxy, { data }) => {
+          if (!data) return
+          const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
+          if (prev) {
+            const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id)
+            if (alreadyExist) return
 
-        //     data.tasks.push({ __typename: 'Task', ...result.data.createTask })
-        //     proxy.writeQuery({ query: GET_TASKS, data })
-        //   }
-        // }}
+            const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }]
+            proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
+          }
+        }}
       >
         {mutate => (
           <Task disabled>
