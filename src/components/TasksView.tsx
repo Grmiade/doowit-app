@@ -47,7 +47,7 @@ const TASK_DONE = gql`
 
 function TasksView() {
   return (
-    <>
+    <div>
       <H1>⏰ MY TASKS</H1>
       <Query<GetTasks> query={GET_TASKS}>
         {({ data, loading, error, subscribeToMore }) => {
@@ -96,7 +96,7 @@ function TasksView() {
           )
         }}
       </Query>
-    </>
+    </div>
   )
 }
 

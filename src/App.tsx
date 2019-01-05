@@ -37,16 +37,14 @@ const link = split(
 
 const client = new ApolloClient({ link, cache: new InMemoryCache() })
 
-const Layout = styled.div`
-  margin: 3em;
+const StyledTasksView = styled(TasksView)`
+  margin: 2em;
 `
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Layout>
-        <TasksView />
-      </Layout>
+      <StyledTasksView />
     </ApolloProvider>
   )
 }
