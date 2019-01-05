@@ -44,13 +44,14 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
     return (
       <Mutation<ToggleTask, ToggleTaskVariables>
         mutation={TOGGLE_TASK}
-        optimisticResponse={{
-          toggleTask: {
-            __typename: 'Task',
-            done: !task.done,
-            id: task.id,
-          },
-        }}
+        // TODO: Use updatedAt to handle concurrency?
+        // optimisticResponse={{
+        //   toggleTask: {
+        //     __typename: 'Task',
+        //     done: !task.done,
+        //     id: task.id,
+        //   },
+        // }}
         variables={{ id: task.id }}
       >
         {(toogleTask, { loading }) => (
