@@ -1,12 +1,16 @@
 import React from 'react'
 
-import { Card, Checkbox, Elevation } from '@blueprintjs/core'
+import { Card, Checkbox, Elevation, Spinner } from '@blueprintjs/core'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
   display: flex;
   align-items: center;
   margin-bottom: 1em;
+`
+
+const StyledSpinner = styled(Spinner)`
+  margin-right: 10px;
 `
 
 const StyledCheckbox = styled(Checkbox)`
@@ -16,31 +20,39 @@ const StyledCheckbox = styled(Checkbox)`
 interface TaskProps {
   className?: string
   checked: boolean
-  disabled?: boolean
+  disabled: boolean
+  loading: boolean
   onCheck?: (value: boolean) => void
 }
 
 export default class Task extends React.Component<TaskProps> {
   public static defaultProps = {
     checked: false,
+    disabled: false,
+    loading: false,
   }
 
   private handleCheck = () => {
-    const { checked, disabled, onCheck } = this.props
-    if (!disabled && onCheck) onCheck(!checked)
+    const { checked, onCheck } = this.props
+    if (onCheck) onCheck(!checked)
   }
 
   public render() {
-    const { className, checked, children, disabled } = this.props
+    const { className, checked, children, disabled, loading } = this.props
+    const isInteractive = !disabled && !loading
 
     return (
       <StyledCard
-        interactive={!disabled}
+        interactive={isInteractive}
         className={className}
         elevation={Elevation.ONE}
-        onClick={this.handleCheck}
+        onClick={isInteractive ? this.handleCheck : undefined}
       >
-        <StyledCheckbox disabled={disabled} checked={checked} onChange={this.handleCheck} />
+        {loading ? (
+          <StyledSpinner size={16} />
+        ) : (
+          <StyledCheckbox disabled={disabled} checked={checked} onChange={this.handleCheck} />
+        )}
         {children}
       </StyledCard>
     )

@@ -39,7 +39,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
 
   public render() {
     const { task } = this.props
-    const disabled = isFakeId(task.id)
+    const isFakeTask = isFakeId(task.id)
 
     return (
       <Mutation<ToggleTask, ToggleTaskVariables>
@@ -53,10 +53,15 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
         }}
         variables={{ id: task.id }}
       >
-        {toogleTask => (
-          <Task checked={task.done} disabled={disabled} onCheck={() => toogleTask()}>
+        {(toogleTask, { loading }) => (
+          <Task
+            checked={task.done}
+            disabled={isFakeTask}
+            loading={loading}
+            onCheck={() => toogleTask()}
+          >
             <Text>{task.message}</Text>
-            <StyledDeleteTaskButton disabled={disabled} taskId={task.id} />
+            <StyledDeleteTaskButton disabled={loading || isFakeTask} taskId={task.id} />
           </Task>
         )}
       </Mutation>

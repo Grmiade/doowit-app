@@ -62,9 +62,14 @@ function TasksView() {
                     document: TASK_CREATED,
                     updateQuery: (prev, { subscriptionData }) => {
                       if (!subscriptionData.data) return prev
+                      const newTask = subscriptionData.data.taskCreated
+
+                      const alreadyExist = prev.tasks.some(task => task.id === newTask.id)
+                      if (alreadyExist) return prev
+
                       return {
                         ...prev,
-                        tasks: [...prev.tasks, subscriptionData.data.taskCreated],
+                        tasks: [...prev.tasks, newTask],
                       }
                     },
                   })
