@@ -54,12 +54,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
         variables={{ id: task.id }}
       >
         {(toogleTask, { loading }) => (
-          <Task
-            checked={task.done}
-            disabled={isFakeTask}
-            loading={loading}
-            onCheck={() => toogleTask()}
-          >
+          <Task checked={task.done} loading={loading || isFakeTask} onCheck={() => toogleTask()}>
             <Text>{task.message}</Text>
             <StyledDeleteTaskButton disabled={loading || isFakeTask} taskId={task.id} />
           </Task>
