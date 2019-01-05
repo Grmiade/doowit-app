@@ -45,9 +45,13 @@ const TASK_DONE = gql`
   }
 `
 
-function TasksView() {
+interface TasksViewProps {
+  className?: string
+}
+
+function TasksView(props: TasksViewProps) {
   return (
-    <div>
+    <div className={props.className}>
       <H1>⏰ MY TASKS</H1>
       <Query<GetTasks> query={GET_TASKS}>
         {({ data, loading, error, subscribeToMore }) => {
