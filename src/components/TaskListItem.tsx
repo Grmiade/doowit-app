@@ -3,7 +3,6 @@ import React from 'react'
 import { Text } from '@blueprintjs/core'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
-import styled from 'styled-components'
 
 import { TaskItemFragment } from './__generated__/TaskItemFragment'
 import { CompleteTask, CompleteTaskVariables } from './__generated__/CompleteTask'
@@ -11,10 +10,6 @@ import { UncompleteTask, UncompleteTaskVariables } from './__generated__/Uncompl
 import DeleteTaskButton from './DeleteTaskButton'
 import Task from './Task'
 import { isFakeId } from '../utils'
-
-const StyledDeleteTaskButton = styled(DeleteTaskButton)`
-  margin-left: auto;
-`
 
 const COMPLETE_TASK = gql`
   mutation CompleteTask($id: ID!) {
@@ -53,6 +48,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
   public render() {
     const { task } = this.props
     const isFakeTask = isFakeId(task.id)
+    const debounceOptions = { debounceKey: 'toggleTask', debounceTimeout: 500 }
 
     if (task.done) {
       return (
@@ -67,11 +63,16 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
             },
           }}
           variables={{ id: task.id }}
+          context={debounceOptions}
         >
           {uncompleteTask => (
-            <Task checked loading={isFakeTask} onCheck={() => uncompleteTask()}>
+            <Task
+              checked
+              actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
+              loading={isFakeTask}
+              onCheck={() => uncompleteTask()}
+            >
               <Text>{task.message}</Text>
-              <StyledDeleteTaskButton disabled={isFakeTask} taskId={task.id} />
             </Task>
           )}
         </Mutation>
@@ -90,11 +91,16 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
           },
         }}
         variables={{ id: task.id }}
+        context={debounceOptions}
       >
         {completeTask => (
-          <Task checked={false} loading={isFakeTask} onCheck={() => completeTask()}>
+          <Task
+            actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
+            checked={false}
+            loading={isFakeTask}
+            onCheck={() => completeTask()}
+          >
             <Text>{task.message}</Text>
-            <StyledDeleteTaskButton disabled={isFakeTask} taskId={task.id} />
           </Task>
         )}
       </Mutation>

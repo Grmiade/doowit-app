@@ -17,7 +17,12 @@ const StyledCheckbox = styled(Checkbox)`
   margin-bottom: 0;
 `
 
+const StyledActions = styled.div`
+  margin-left: auto;
+`
+
 interface TaskProps {
+  actions?: React.ReactNode
   className?: string
   checked: boolean
   disabled: boolean
@@ -38,7 +43,7 @@ export default class Task extends React.Component<TaskProps> {
   }
 
   public render() {
-    const { className, checked, children, disabled, loading } = this.props
+    const { actions, className, checked, children, disabled, loading } = this.props
     const isInteractive = !disabled && !loading
 
     return (
@@ -51,9 +56,14 @@ export default class Task extends React.Component<TaskProps> {
         {loading ? (
           <StyledSpinner size={16} />
         ) : (
-          <StyledCheckbox disabled={disabled} checked={checked} onChange={this.handleCheck} />
+          <StyledCheckbox
+            disabled={loading || disabled}
+            checked={checked}
+            onChange={this.handleCheck}
+          />
         )}
         {children}
+        {actions && <StyledActions>{actions}</StyledActions>}
       </StyledCard>
     )
   }
