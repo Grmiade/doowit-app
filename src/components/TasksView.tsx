@@ -24,7 +24,7 @@ const TASK_CREATED = gql`
       id
       message
       done
-      updatedAt
+      version
     }
   }
 `
@@ -42,7 +42,7 @@ const TASK_DONE = gql`
     taskDone {
       taskId: id
       done
-      updatedAt
+      version
     }
   }
 `
@@ -104,8 +104,7 @@ function TasksView(props: TasksViewProps) {
                         ...prev,
                         tasks: prev.tasks.map(task => {
                           const shouldApplyUpdate =
-                            updatedTask.taskId === task.id &&
-                            new Date(updatedTask.updatedAt) >= new Date(task.updatedAt)
+                            updatedTask.taskId === task.id && updatedTask.version > task.version
                           if (shouldApplyUpdate) return { ...task, ...updatedTask }
                           return task
                         }),

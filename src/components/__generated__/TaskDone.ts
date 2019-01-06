@@ -9,7 +9,7 @@ export interface TaskDone_taskDone {
   __typename: 'Task'
   taskId: string
   done: boolean
-  updatedAt: GraphQLDateTime
+  version: number
 }
 
 export interface TaskDone {

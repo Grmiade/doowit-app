@@ -9,7 +9,7 @@ export interface ToggleTask_toggleTask {
   __typename: 'Task'
   id: string
   done: boolean
-  updatedAt: GraphQLDateTime
+  version: number
 }
 
 export interface ToggleTask {

@@ -10,7 +10,7 @@ export interface TaskListFragment_tasks {
   id: string
   done: boolean
   message: string
-  updatedAt: GraphQLDateTime
+  version: number
 }
 
 export interface TaskListFragment {

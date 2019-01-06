@@ -16,7 +16,7 @@ const CREATE_TASK = gql`
       id
       message
       done
-      updatedAt
+      version
     }
   }
 `
@@ -42,7 +42,7 @@ export default class AddTask extends React.Component<{}, AddTaskState> {
             done: false,
             message: value,
             id: generateFakeId(),
-            updatedAt: new Date().toISOString(),
+            version: 1,
           },
         }}
         update={(proxy, { data }) => {

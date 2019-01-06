@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
 
-import { TaskItem } from './__generated__/TaskItem'
+import { TaskItemFragment } from './__generated__/TaskItemFragment'
 import { ToggleTask, ToggleTaskVariables } from './__generated__/ToggleTask'
 import DeleteTaskButton from './DeleteTaskButton'
 import Task from './Task'
@@ -20,13 +20,13 @@ const TOGGLE_TASK = gql`
     toggleTask(id: $id) {
       id
       done
-      updatedAt
+      version
     }
   }
 `
 
 interface TaskListItemProps {
-  task: TaskItem
+  task: TaskItemFragment
 }
 
 export default class TaskListItem extends React.Component<TaskListItemProps> {
@@ -35,7 +35,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
       id
       done
       message
-      updatedAt
+      version
     }
   `
 
@@ -51,7 +51,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
             __typename: 'Task',
             done: !task.done,
             id: task.id,
-            updatedAt: new Date().toISOString(),
+            version: task.version + 1,
           },
         }}
         variables={{ id: task.id }}
