@@ -24,6 +24,7 @@ const TASK_CREATED = gql`
       id
       message
       done
+      updatedAt
     }
   }
 `
@@ -39,8 +40,9 @@ const TASK_DELETED = gql`
 const TASK_DONE = gql`
   subscription TaskDone {
     taskDone {
-      id
+      taskId: id
       done
+      updatedAt
     }
   }
 `
@@ -92,7 +94,24 @@ function TasksView(props: TasksViewProps) {
                     },
                   })
                 }
-                subscribeToTaskDone={() => subscribeToMore<TaskDone>({ document: TASK_DONE })}
+                subscribeToTaskDone={() =>
+                  subscribeToMore<TaskDone>({
+                    document: TASK_DONE,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData.data) return prev
+                      const updatedTask = subscriptionData.data.taskDone
+                      return {
+                        ...prev,
+                        tasks: prev.tasks.map(task => {
+                          const shouldApplyUpdate =
+                            task.id === updatedTask.taskId && task.updatedAt < updatedTask.updatedAt
+                          if (shouldApplyUpdate) return { ...task, ...updatedTask }
+                          return task
+                        }),
+                      }
+                    },
+                  })
+                }
                 tasks={!loading ? data!.tasks : []}
               />
               {!loading && <AddTask />}

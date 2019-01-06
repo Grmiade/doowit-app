@@ -10,4 +10,5 @@ export interface TaskItemFragment {
   id: string
   done: boolean
   message: string
+  updatedAt: GraphQLDateTime
 }

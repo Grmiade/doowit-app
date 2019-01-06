@@ -7,8 +7,9 @@
 
 export interface TaskDone_taskDone {
   __typename: 'Task'
-  id: string
+  taskId: string
   done: boolean
+  updatedAt: GraphQLDateTime
 }
 
 export interface TaskDone {

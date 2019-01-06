@@ -10,6 +10,7 @@ export interface GetTasks_tasks {
   id: string
   done: boolean
   message: string
+  updatedAt: GraphQLDateTime
 }
 
 export interface GetTasks {

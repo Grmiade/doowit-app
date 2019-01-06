@@ -20,6 +20,7 @@ const TOGGLE_TASK = gql`
     toggleTask(id: $id) {
       id
       done
+      updatedAt
     }
   }
 `
@@ -34,6 +35,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
       id
       done
       message
+      updatedAt
     }
   `
 
@@ -44,20 +46,20 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
     return (
       <Mutation<ToggleTask, ToggleTaskVariables>
         mutation={TOGGLE_TASK}
-        // TODO: Use updatedAt to handle concurrency?
-        // optimisticResponse={{
-        //   toggleTask: {
-        //     __typename: 'Task',
-        //     done: !task.done,
-        //     id: task.id,
-        //   },
-        // }}
+        optimisticResponse={{
+          toggleTask: {
+            __typename: 'Task',
+            done: !task.done,
+            id: task.id,
+            updatedAt: new Date().toISOString(),
+          },
+        }}
         variables={{ id: task.id }}
       >
-        {(toogleTask, { loading }) => (
-          <Task checked={task.done} loading={loading || isFakeTask} onCheck={() => toogleTask()}>
+        {toogleTask => (
+          <Task checked={task.done} loading={isFakeTask} onCheck={() => toogleTask()}>
             <Text>{task.message}</Text>
-            <StyledDeleteTaskButton disabled={loading || isFakeTask} taskId={task.id} />
+            <StyledDeleteTaskButton disabled={isFakeTask} taskId={task.id} />
           </Task>
         )}
       </Mutation>
