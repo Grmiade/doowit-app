@@ -104,7 +104,8 @@ function TasksView(props: TasksViewProps) {
                         ...prev,
                         tasks: prev.tasks.map(task => {
                           const shouldApplyUpdate =
-                            task.id === updatedTask.taskId && task.updatedAt < updatedTask.updatedAt
+                            updatedTask.taskId === task.id &&
+                            new Date(updatedTask.updatedAt) >= new Date(task.updatedAt)
                           if (shouldApplyUpdate) return { ...task, ...updatedTask }
                           return task
                         }),
