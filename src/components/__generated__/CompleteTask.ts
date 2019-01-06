@@ -2,20 +2,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: ToggleTask
+// GraphQL mutation operation: CompleteTask
 // ====================================================
 
-export interface ToggleTask_toggleTask {
+export interface CompleteTask_completeTask {
   __typename: 'Task'
   id: string
   done: boolean
   version: number
 }
 
-export interface ToggleTask {
-  toggleTask: ToggleTask_toggleTask
+export interface CompleteTask {
+  completeTask: CompleteTask_completeTask
 }
 
-export interface ToggleTaskVariables {
+export interface CompleteTaskVariables {
   id: string
 }
