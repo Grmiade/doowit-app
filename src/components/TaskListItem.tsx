@@ -45,7 +45,7 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
   public render() {
     const { task } = this.props
     const isFakeTask = isFakeId(task.id)
-    const debounceOptions = { debounceKey: 'toggleTask', debounceTimeout: 500 }
+    const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
 
     if (task.done) {
       return (
