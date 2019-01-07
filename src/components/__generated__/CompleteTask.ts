@@ -9,7 +9,6 @@ export interface CompleteTask_completeTask {
   __typename: 'Task'
   id: string
   done: boolean
-  version: number
 }
 
 export interface CompleteTask {

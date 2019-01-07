@@ -7,9 +7,8 @@
 
 export interface TaskDone_taskDone {
   __typename: 'Task'
-  taskId: string
+  id: string
   done: boolean
-  version: number
 }
 
 export interface TaskDone {

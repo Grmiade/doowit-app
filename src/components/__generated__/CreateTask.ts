@@ -10,7 +10,6 @@ export interface CreateTask_createTask {
   id: string
   message: string
   done: boolean
-  version: number
 }
 
 export interface CreateTask {

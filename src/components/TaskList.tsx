@@ -3,7 +3,7 @@ import React from 'react'
 import { ProgressBar, Intent } from '@blueprintjs/core'
 import gql from 'graphql-tag'
 
-import { TaskItem } from './__generated__/TaskItem'
+import { TaskListFragment_tasks } from './__generated__/TaskListFragment'
 import TaskListItem from './TaskListItem'
 
 interface TaskListProps {
@@ -11,7 +11,7 @@ interface TaskListProps {
   subscribeToNewTask: () => () => void
   subscribeToTaskDeleted: () => () => void
   subscribeToTaskDone: () => () => void
-  tasks: TaskItem[]
+  tasks: TaskListFragment_tasks[]
 }
 
 export default class TaskList extends React.Component<TaskListProps> {

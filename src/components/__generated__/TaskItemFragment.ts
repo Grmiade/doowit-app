@@ -10,5 +10,4 @@ export interface TaskItemFragment {
   id: string
   done: boolean
   message: string
-  version: number
 }

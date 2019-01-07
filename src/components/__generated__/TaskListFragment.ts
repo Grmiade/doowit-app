@@ -10,7 +10,6 @@ export interface TaskListFragment_tasks {
   id: string
   done: boolean
   message: string
-  version: number
 }
 
 export interface TaskListFragment {

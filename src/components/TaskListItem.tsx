@@ -16,7 +16,6 @@ const COMPLETE_TASK = gql`
     completeTask(id: $id) {
       id
       done
-      version
     }
   }
 `
@@ -26,7 +25,6 @@ const UNCOMPLETE_TASK = gql`
     uncompleteTask(id: $id) {
       id
       done
-      version
     }
   }
 `
@@ -41,7 +39,6 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
       id
       done
       message
-      version
     }
   `
 
@@ -59,7 +56,6 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
               __typename: 'Task',
               done: false,
               id: task.id,
-              version: task.version + 1,
             },
           }}
           variables={{ id: task.id }}
@@ -87,7 +83,6 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
             __typename: 'Task',
             done: true,
             id: task.id,
-            version: task.version + 1,
           },
         }}
         variables={{ id: task.id }}

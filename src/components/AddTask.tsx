@@ -16,7 +16,6 @@ const CREATE_TASK = gql`
       id
       message
       done
-      version
     }
   }
 `

@@ -9,7 +9,6 @@ export interface UncompleteTask_uncompleteTask {
   __typename: 'Task'
   id: string
   done: boolean
-  version: number
 }
 
 export interface UncompleteTask {
