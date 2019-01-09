@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client'
 import { ApolloLink } from 'apollo-link'
 import DebounceLink from 'apollo-link-debounce'
 import { HttpLink } from 'apollo-link-http'
+import { RetryLink } from 'apollo-link-retry'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import styled from 'styled-components'
@@ -18,6 +19,7 @@ FocusStyleManager.onlyShowFocusOnTabs()
 // Create our Apollo links
 const httpLink = ApolloLink.from([
   new DebounceLink(100),
+  new RetryLink(),
   new HttpLink({ uri: process.env.GRAPHQL_URL! }),
 ])
 const wsLink = new WebSocketLink({

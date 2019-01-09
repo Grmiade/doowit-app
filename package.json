@@ -20,6 +20,7 @@
     "apollo-link": "1.2.6",
     "apollo-link-debounce": "^2.1.0",
     "apollo-link-http": "1.5.9",
+    "apollo-link-retry": "^2.2.8",
     "apollo-link-ws": "1.0.12",
     "graphql": "14.0.2",
     "graphql-tag": "2.10.0",
