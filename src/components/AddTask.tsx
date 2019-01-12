@@ -41,7 +41,6 @@ export default class AddTask extends React.Component<{}, AddTaskState> {
             done: false,
             message: value,
             id: generateFakeId(),
-            version: 1,
           },
         }}
         update={(proxy, { data }) => {
