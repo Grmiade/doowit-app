@@ -43,12 +43,11 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
       }}
       variables={{ id: props.taskId }}
     >
-      {(deleteTask, { loading }) => (
+      {deleteTask => (
         <Button
           small
           className={props.className}
           disabled={props.disabled}
-          loading={loading}
           icon={IconNames.TRASH}
           intent={Intent.DANGER}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
