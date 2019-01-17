@@ -5,24 +5,14 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
 import { TaskItemFragment } from './__generated__/TaskItemFragment'
-import { CompleteTask, CompleteTaskVariables } from './__generated__/CompleteTask'
-import { UncompleteTask, UncompleteTaskVariables } from './__generated__/UncompleteTask'
+import { UpdateTask, UpdateTaskVariables } from './__generated__/UpdateTask'
 import DeleteTaskButton from './DeleteTaskButton'
 import Task from './Task'
 import { isFakeId } from '../utils'
 
-const COMPLETE_TASK = gql`
-  mutation CompleteTask($id: ID!) {
-    completeTask(id: $id) {
-      id
-      done
-    }
-  }
-`
-
-const UNCOMPLETE_TASK = gql`
-  mutation UncompleteTask($id: ID!) {
-    uncompleteTask(id: $id) {
+const UPDATE_TASK = gql`
+  mutation UpdateTask($id: ID!, $done: Boolean!) {
+    updateTask(id: $id, done: $done) {
       id
       done
     }
@@ -45,55 +35,27 @@ export default class TaskListItem extends React.Component<TaskListItemProps> {
   public render() {
     const { task } = this.props
     const isFakeTask = isFakeId(task.id)
+    const variables = { id: task.id, done: !task.done }
     const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
 
-    if (task.done) {
-      return (
-        <Mutation<UncompleteTask, UncompleteTaskVariables>
-          mutation={UNCOMPLETE_TASK}
-          optimisticResponse={{
-            uncompleteTask: {
-              __typename: 'Task',
-              done: false,
-              id: task.id,
-            },
-          }}
-          variables={{ id: task.id }}
-          context={debounceOptions}
-        >
-          {uncompleteTask => (
-            <Task
-              checked
-              actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
-              loading={isFakeTask}
-              onCheck={() => uncompleteTask()}
-            >
-              <Text>{task.message}</Text>
-            </Task>
-          )}
-        </Mutation>
-      )
-    }
-
     return (
-      <Mutation<CompleteTask, CompleteTaskVariables>
-        mutation={COMPLETE_TASK}
+      <Mutation<UpdateTask, UpdateTaskVariables>
+        mutation={UPDATE_TASK}
         optimisticResponse={{
-          completeTask: {
+          updateTask: {
             __typename: 'Task',
-            done: true,
-            id: task.id,
+            ...variables,
           },
         }}
-        variables={{ id: task.id }}
+        variables={variables}
         context={debounceOptions}
       >
-        {completeTask => (
+        {updateTask => (
           <Task
+            checked={task.done}
             actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
-            checked={false}
             loading={isFakeTask}
-            onCheck={() => completeTask()}
+            onCheck={() => updateTask()}
           >
             <Text>{task.message}</Text>
           </Task>
