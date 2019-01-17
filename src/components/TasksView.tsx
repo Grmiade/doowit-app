@@ -9,7 +9,7 @@ import AddTask from './AddTask'
 import TaskList from './TaskList'
 import { TaskCreated } from './__generated__/TaskCreated'
 import { TaskDeleted } from './__generated__/TaskDeleted'
-import { TaskDone } from './__generated__/TaskDone'
+import { TaskUpdated } from './__generated__/TaskUpdated'
 
 export const GET_TASKS = gql`
   query GetTasks {
@@ -36,9 +36,9 @@ const TASK_DELETED = gql`
   }
 `
 
-const TASK_DONE = gql`
-  subscription TaskDone {
-    taskDone {
+const TASK_UPDATED = gql`
+  subscription TaskUpdated {
+    taskUpdated {
       id
       done
     }
@@ -92,7 +92,7 @@ function TasksView(props: TasksViewProps) {
                     },
                   })
                 }
-                subscribeToTaskDone={() => subscribeToMore<TaskDone>({ document: TASK_DONE })}
+                subscribeToTaskDone={() => subscribeToMore<TaskUpdated>({ document: TASK_UPDATED })}
                 tasks={!loading ? data!.tasks : []}
               />
               {!loading && <AddTask />}
