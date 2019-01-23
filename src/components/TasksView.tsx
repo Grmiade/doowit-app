@@ -57,6 +57,8 @@ function TasksView(props: TasksViewProps) {
         {({ data, loading, error, subscribeToMore }) => {
           if (error) return error.message
 
+          const tasks = !loading && data ? data.tasks : []
+
           return (
             <>
               <TaskList
@@ -93,7 +95,7 @@ function TasksView(props: TasksViewProps) {
                   })
                 }
                 subscribeToTaskDone={() => subscribeToMore<TaskUpdated>({ document: TASK_UPDATED })}
-                tasks={!loading ? data!.tasks : []}
+                tasks={tasks}
               />
               {!loading && <AddTask />}
             </>
