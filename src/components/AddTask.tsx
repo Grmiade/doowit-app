@@ -60,7 +60,7 @@ export default class AddTask extends React.Component<{}, AddTaskState> {
           }
         }}
       >
-        {mutate => (
+        {createTask => (
           <Task disabled>
             <StyledEditableText
               placeholder="New Task"
@@ -68,7 +68,7 @@ export default class AddTask extends React.Component<{}, AddTaskState> {
               onChange={value => this.setState({ value })}
               onConfirm={value => {
                 if (value !== '') {
-                  mutate({ variables: { message: value } })
+                  createTask({ variables: { message: value } })
                   this.setState({ value: '' })
                 }
               }}
