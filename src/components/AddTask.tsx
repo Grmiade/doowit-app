@@ -3,6 +3,7 @@ import React from 'react'
 import { EditableText } from '@blueprintjs/core'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
+import styled from 'styled-components'
 
 import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask'
 import { GetTasks } from './__generated__/GetTasks'
@@ -18,6 +19,10 @@ const CREATE_TASK = gql`
       done
     }
   }
+`
+
+const StyledEditableText = styled(EditableText)`
+  width: 100%;
 `
 
 interface AddTaskState {
@@ -57,8 +62,7 @@ export default class AddTask extends React.Component<{}, AddTaskState> {
       >
         {mutate => (
           <Task disabled>
-            <EditableText
-              confirmOnEnterKey
+            <StyledEditableText
               placeholder="New Task"
               value={value}
               onChange={value => this.setState({ value })}
