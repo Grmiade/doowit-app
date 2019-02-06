@@ -27,7 +27,7 @@ interface TaskProps {
   checked: boolean
   disabled: boolean
   loading: boolean
-  onCheck?: (value: boolean) => void
+  onCheck?: () => void
 }
 
 export default class Task extends React.Component<TaskProps> {
@@ -37,9 +37,10 @@ export default class Task extends React.Component<TaskProps> {
     loading: false,
   }
 
-  private handleCheck = () => {
-    const { checked, onCheck } = this.props
-    if (onCheck) onCheck(!checked)
+  private handleCheck = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    const { onCheck } = this.props
+    if (onCheck) onCheck()
   }
 
   public render() {
@@ -56,11 +57,7 @@ export default class Task extends React.Component<TaskProps> {
         {loading ? (
           <StyledSpinner size={16} />
         ) : (
-          <StyledCheckbox
-            disabled={loading || disabled}
-            checked={checked}
-            onChange={this.handleCheck}
-          />
+          <StyledCheckbox disabled={!isInteractive} checked={checked} />
         )}
         {children}
         {actions && <StyledActions>{actions}</StyledActions>}
