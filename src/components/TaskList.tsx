@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { ProgressBar, Intent } from '@blueprintjs/core'
 import gql from 'graphql-tag'
@@ -14,62 +14,55 @@ interface TaskListProps {
   tasks: TaskListFragment_tasks[]
 }
 
-export default class TaskList extends React.Component<TaskListProps> {
-  public static defaultProps = {
-    loading: false,
-  }
-
-  public static fragment = gql`
-    fragment TaskListFragment on Query {
-      tasks {
-        ...TaskItemFragment
-      }
-    }
-    ${TaskListItem.fragment}
-  `
-
-  private static determineRatioIntent(ratio: number) {
-    if (ratio >= 0.75) return Intent.SUCCESS
-    if (ratio >= 0.5) return Intent.WARNING
-    return Intent.DANGER
-  }
-
-  private unsubscribeToNewTask: () => void
-  private unsubscribeToTaskDeleted: () => void
-  private unsubscribeToTaskDone: () => void
-
-  public componentDidMount() {
-    this.unsubscribeToNewTask = this.props.subscribeToNewTask()
-    this.unsubscribeToTaskDeleted = this.props.subscribeToTaskDeleted()
-    this.unsubscribeToTaskDone = this.props.subscribeToTaskDone()
-  }
-
-  public componentWillUnmount() {
-    this.unsubscribeToNewTask()
-    this.unsubscribeToTaskDeleted()
-    this.unsubscribeToTaskDone()
-  }
-
-  public render() {
-    const { loading, tasks } = this.props
-
-    if (loading) return <ProgressBar animate stripes intent={Intent.NONE} value={1} />
-
-    const ratio = tasks.length !== 0 ? tasks.filter(task => task.done).length / tasks.length : 1
-
-    return (
-      <>
-        <ProgressBar
-          animate={false}
-          intent={TaskList.determineRatioIntent(ratio)}
-          stripes={false}
-          value={ratio}
-        />
-        <br />
-        {tasks.map(task => (
-          <TaskListItem key={task.id} task={task} />
-        ))}
-      </>
-    )
-  }
+function determineRatioIntent(ratio: number) {
+  if (ratio >= 0.75) return Intent.SUCCESS
+  if (ratio >= 0.5) return Intent.WARNING
+  return Intent.DANGER
 }
+
+function TaskList(props: TaskListProps) {
+  useEffect(() => {
+    const unsubscribeToNewTask = props.subscribeToNewTask()
+    const unsubscribeToTaskDeleted = props.subscribeToTaskDeleted()
+    const unsubscribeToTaskDone = props.subscribeToTaskDone()
+    return () => {
+      unsubscribeToNewTask()
+      unsubscribeToTaskDeleted()
+      unsubscribeToTaskDone()
+    }
+  }, [])
+
+  const { loading, tasks } = props
+  if (loading) return <ProgressBar animate stripes intent={Intent.NONE} value={1} />
+  const ratio = tasks.length !== 0 ? tasks.filter(task => task.done).length / tasks.length : 1
+
+  return (
+    <>
+      <ProgressBar
+        animate={false}
+        intent={determineRatioIntent(ratio)}
+        stripes={false}
+        value={ratio}
+      />
+      <br />
+      {tasks.map(task => (
+        <TaskListItem key={task.id} task={task} />
+      ))}
+    </>
+  )
+}
+
+TaskList.defaultProps = {
+  loading: false,
+}
+
+TaskList.fragment = gql`
+  fragment TaskListFragment on Query {
+    tasks {
+      ...TaskItemFragment
+    }
+  }
+  ${TaskListItem.fragment}
+`
+
+export default TaskList

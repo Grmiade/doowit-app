@@ -12,8 +12,8 @@
     "components": "./src/components/"
   },
   "dependencies": {
-    "@blueprintjs/core": "3.12.0",
-    "@blueprintjs/icons": "3.5.1",
+    "@blueprintjs/core": "3.13.0",
+    "@blueprintjs/icons": "3.6.0",
     "apollo-cache-inmemory": "1.4.2",
     "apollo-client": "2.4.12",
     "apollo-link": "1.2.8",
@@ -22,7 +22,7 @@
     "apollo-link-retry": "2.2.10",
     "apollo-link-ws": "1.0.14",
     "apollo-utilities": "1.1.2",
-    "graphql": "14.0.2",
+    "graphql": "14.1.1",
     "graphql-tag": "2.10.1",
     "react": "16.8.1",
     "react-apollo": "2.4.1",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/graphql": "14.0.5",
-    "@types/node": "10.12.21",
+    "@types/node": "10.12.24",
     "@types/react": "16.8.2",
     "@types/react-dom": "16.8.0",
     "@types/styled-components": "4.1.8",
@@ -44,7 +44,7 @@
     "tslint": "5.12.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.1"
+    "typescript": "3.3.3"
   },
   "husky": {
     "hooks": {

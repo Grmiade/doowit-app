@@ -23,6 +23,7 @@ const StyledActions = styled.div`
 
 interface TaskProps {
   actions?: React.ReactNode
+  children: React.ReactNode
   className?: string
   checked: boolean
   disabled: boolean
@@ -30,38 +31,35 @@ interface TaskProps {
   onCheck?: () => void
 }
 
-export default class Task extends React.Component<TaskProps> {
-  public static defaultProps = {
-    checked: false,
-    disabled: false,
-    loading: false,
-  }
+function Task(props: TaskProps) {
+  const { actions, className, checked, children, disabled, loading } = props
+  const isInteractive = !disabled && !loading
 
-  private handleCheck = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    const { onCheck } = this.props
-    if (onCheck) onCheck()
-  }
-
-  public render() {
-    const { actions, className, checked, children, disabled, loading } = this.props
-    const isInteractive = !disabled && !loading
-
-    return (
-      <StyledCard
-        interactive={isInteractive}
-        className={className}
-        elevation={Elevation.ONE}
-        onClick={isInteractive ? this.handleCheck : undefined}
-      >
-        {loading ? (
-          <StyledSpinner size={16} />
-        ) : (
-          <StyledCheckbox disabled={!isInteractive} checked={checked} />
-        )}
-        {children}
-        {actions && <StyledActions>{actions}</StyledActions>}
-      </StyledCard>
-    )
-  }
+  return (
+    <StyledCard
+      interactive={isInteractive}
+      className={className}
+      elevation={Elevation.ONE}
+      onClick={event => {
+        event.preventDefault()
+        if (isInteractive && props.onCheck) props.onCheck()
+      }}
+    >
+      {loading ? (
+        <StyledSpinner size={16} />
+      ) : (
+        <StyledCheckbox disabled={!isInteractive} checked={checked} />
+      )}
+      {children}
+      {actions && <StyledActions>{actions}</StyledActions>}
+    </StyledCard>
+  )
 }
+
+Task.defaultProps = {
+  checked: false,
+  disabled: false,
+  loading: false,
+}
+
+export default Task

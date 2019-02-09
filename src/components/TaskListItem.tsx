@@ -23,44 +23,44 @@ interface TaskListItemProps {
   task: TaskItemFragment
 }
 
-export default class TaskListItem extends React.Component<TaskListItemProps> {
-  public static fragment = gql`
-    fragment TaskItemFragment on Task {
-      id
-      done
-      message
-    }
-  `
+function TaskListItem(props: TaskListItemProps) {
+  const { task } = props
+  const isFakeTask = isFakeId(task.id)
+  const variables = { id: task.id, done: !task.done }
+  const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
 
-  public render() {
-    const { task } = this.props
-    const isFakeTask = isFakeId(task.id)
-    const variables = { id: task.id, done: !task.done }
-    const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
-
-    return (
-      <Mutation<UpdateTask, UpdateTaskVariables>
-        mutation={UPDATE_TASK}
-        optimisticResponse={{
-          updateTask: {
-            __typename: 'Task',
-            ...variables,
-          },
-        }}
-        variables={variables}
-        context={debounceOptions}
-      >
-        {updateTask => (
-          <Task
-            checked={task.done}
-            actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
-            loading={isFakeTask}
-            onCheck={() => updateTask()}
-          >
-            <Text>{task.message}</Text>
-          </Task>
-        )}
-      </Mutation>
-    )
-  }
+  return (
+    <Mutation<UpdateTask, UpdateTaskVariables>
+      mutation={UPDATE_TASK}
+      optimisticResponse={{
+        updateTask: {
+          __typename: 'Task',
+          ...variables,
+        },
+      }}
+      variables={variables}
+      context={debounceOptions}
+    >
+      {updateTask => (
+        <Task
+          checked={task.done}
+          actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
+          loading={isFakeTask}
+          onCheck={() => updateTask()}
+        >
+          <Text>{task.message}</Text>
+        </Task>
+      )}
+    </Mutation>
+  )
 }
+
+TaskListItem.fragment = gql`
+  fragment TaskItemFragment on Task {
+    id
+    done
+    message
+  }
+`
+
+export default TaskListItem
