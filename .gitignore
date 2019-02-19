@@ -6,14 +6,11 @@ coverage/
 .env.test
 
 # production
-public/
 build/
 
 # development
 .vscode/
-.cache/
 .env
-schema.json
 
 # misc
 .DS_Store
