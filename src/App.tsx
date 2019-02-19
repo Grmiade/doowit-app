@@ -14,16 +14,18 @@ import styled from 'styled-components'
 
 import TasksView from './components/TasksView'
 
+import logo from './logo.svg'
+console.log(logo)
 FocusStyleManager.onlyShowFocusOnTabs()
 
 // Create our Apollo links
 const httpLink = ApolloLink.from([
   new DebounceLink(100),
   new RetryLink(),
-  new HttpLink({ uri: process.env.GRAPHQL_URL! }),
+  new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_URL! }),
 ])
 const wsLink = new WebSocketLink({
-  uri: process.env.GRAPHQL_WEBSOCKET!,
+  uri: process.env.REACT_APP_GRAPHQL_WEBSOCKET!,
   options: {
     reconnect: true,
   },

@@ -50,9 +50,9 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
           disabled={props.disabled}
           icon={IconNames.TRASH}
           intent={Intent.DANGER}
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          onClick={(event: React.MouseEvent<HTMLElement>) => {
             event.stopPropagation()
-            deleteTask()
+            return deleteTask()
           }}
         />
       )}

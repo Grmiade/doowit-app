@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom"],
+    "module": "esnext",
     "moduleResolution": "node",
+    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "pretty": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "strictNullChecks": true,
-    "jsx": "react",
-    "lib": ["dom", "es2017", "esnext.asynciterable"],
-    "module": "esnext",
+    "resolveJsonModule": true,
     "rootDir": "./src",
-    "target": "es5"
-  }
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "types": ["node", "react-scripts"]
+  },
+  "include": ["src"]
 }
