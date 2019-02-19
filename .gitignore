@@ -7,7 +7,7 @@ coverage/
 
 # production
 public/
-dist/
+build/
 
 # development
 .vscode/

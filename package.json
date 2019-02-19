@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "graphql:generate-types": "apollo client:codegen --addTypename --customScalarsPrefix=GraphQL --globalTypesFile ./src/__generated__/globalTypes.ts --passthroughCustomScalars --target typescript",
     "lint": "tslint --config tslint.json --project tsconfig.json './src/**/*.{ts,tsx}'",
+    "now-build": "react-scripts build",
     "test": "react-scripts test"
   },
   "dependencies": {
