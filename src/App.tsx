@@ -14,8 +14,6 @@ import styled from 'styled-components'
 
 import TasksView from './components/TasksView'
 
-import logo from './logo.svg'
-console.log(logo)
 FocusStyleManager.onlyShowFocusOnTabs()
 
 // Create our Apollo links

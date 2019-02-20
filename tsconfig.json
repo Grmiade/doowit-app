@@ -16,8 +16,7 @@
     "rootDir": "./src",
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext",
-    "types": ["node", "react-scripts"]
+    "target": "esnext"
   },
   "include": ["src"]
 }
