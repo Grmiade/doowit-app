@@ -12,6 +12,7 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "plugins": [{ "name": "typescript-styled-plugin" }],
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,
