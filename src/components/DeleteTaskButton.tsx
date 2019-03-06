@@ -2,20 +2,14 @@ import React from 'react'
 
 import { Intent, Button } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import gql from 'graphql-tag'
+import { loader } from 'graphql.macro'
 import { Mutation } from 'react-apollo'
 
 import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask'
 import { GetTasks } from './__generated__/GetTasks'
-import { GET_TASKS } from './TasksView'
 
-const DELETE_TASK = gql`
-  mutation DeleteTask($id: ID!) {
-    deleteTask(id: $id) {
-      id
-    }
-  }
-`
+const DELETE_TASK = loader('./DeleteTask.graphql')
+const GET_TASKS = loader('./GetTasks.graphql')
 
 interface DeleteTaskButtonProps {
   className?: string
@@ -50,9 +44,9 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
           disabled={props.disabled}
           icon={IconNames.TRASH}
           intent={Intent.DANGER}
-          onClick={(event: React.MouseEvent<HTMLElement>) => {
+          onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
             event.stopPropagation()
-            return deleteTask()
+            deleteTask()
           }}
         />
       )}

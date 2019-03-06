@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: TaskItemFragment
+// GraphQL fragment: TaskFragment
 // ====================================================
 
-export interface TaskItemFragment {
+export interface TaskFragment {
   __typename: 'Task'
   id: string
   done: boolean

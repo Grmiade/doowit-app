@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import { ProgressBar, Intent } from '@blueprintjs/core'
-import gql from 'graphql-tag'
 
 import { TaskListFragment_tasks } from './__generated__/TaskListFragment'
 import TaskListItem from './TaskListItem'
@@ -55,14 +54,5 @@ function TaskList(props: TaskListProps) {
 TaskList.defaultProps = {
   loading: false,
 }
-
-TaskList.fragment = gql`
-  fragment TaskListFragment on Query {
-    tasks {
-      ...TaskItemFragment
-    }
-  }
-  ${TaskListItem.fragment}
-`
 
 export default TaskList

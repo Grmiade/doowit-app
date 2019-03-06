@@ -1,0 +1,5 @@
+subscription TaskDeleted {
+  taskDeleted {
+    id
+  }
+}

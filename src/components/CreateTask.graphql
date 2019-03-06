@@ -1,0 +1,7 @@
+mutation CreateTask($message: String!) {
+  createTask(message: $message) {
+    id
+    message
+    done
+  }
+}

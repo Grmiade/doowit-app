@@ -1,25 +1,17 @@
 import React, { useState } from 'react'
 
 import { EditableText } from '@blueprintjs/core'
-import gql from 'graphql-tag'
+import { loader } from 'graphql.macro'
 import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
 
 import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask'
 import { GetTasks } from './__generated__/GetTasks'
 import Task from './Task'
-import { GET_TASKS } from './TasksView'
 import { generateFakeId } from '../utils'
 
-const CREATE_TASK = gql`
-  mutation CreateTask($message: String!) {
-    createTask(message: $message) {
-      id
-      message
-      done
-    }
-  }
-`
+const CREATE_TASK = loader('./CreateTask.graphql')
+const GET_TASKS = loader('./GetTasks.graphql')
 
 const StyledEditableText = styled(EditableText)`
   width: 100%;

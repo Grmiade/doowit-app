@@ -1,0 +1,8 @@
+#import "./TaskFragment.graphql"
+
+fragment TaskListFragment on Query {
+  tasks {
+    id
+    ...TaskFragment
+  }
+}

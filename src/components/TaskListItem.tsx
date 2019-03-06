@@ -1,26 +1,19 @@
 import React from 'react'
 
 import { Text } from '@blueprintjs/core'
-import gql from 'graphql-tag'
+import { loader } from 'graphql.macro'
 import { Mutation } from 'react-apollo'
 
-import { TaskItemFragment } from './__generated__/TaskItemFragment'
+import { TaskFragment } from './__generated__/TaskFragment'
 import { UpdateTask, UpdateTaskVariables } from './__generated__/UpdateTask'
 import DeleteTaskButton from './DeleteTaskButton'
 import Task from './Task'
 import { isFakeId } from '../utils'
 
-const UPDATE_TASK = gql`
-  mutation UpdateTask($id: ID!, $done: Boolean!) {
-    updateTask(id: $id, done: $done) {
-      id
-      done
-    }
-  }
-`
+const UPDATE_TASK = loader('./UpdateTask.graphql')
 
 interface TaskListItemProps {
-  task: TaskItemFragment
+  task: TaskFragment
 }
 
 function TaskListItem(props: TaskListItemProps) {
@@ -54,13 +47,5 @@ function TaskListItem(props: TaskListItemProps) {
     </Mutation>
   )
 }
-
-TaskListItem.fragment = gql`
-  fragment TaskItemFragment on Task {
-    id
-    done
-    message
-  }
-`
 
 export default TaskListItem
