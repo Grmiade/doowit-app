@@ -16,14 +16,22 @@ import TasksView from './components/TasksView'
 
 FocusStyleManager.onlyShowFocusOnTabs()
 
+if (!process.env.REACT_APP_GRAPHQL_URL) {
+  throw new Error('The REACT_APP_GRAPHQL_URL env is missing')
+}
+
+if (!process.env.REACT_APP_GRAPHQL_WEBSOCKET) {
+  throw new Error('The REACT_APP_GRAPHQL_WEBSOCKET env is missing')
+}
+
 // Create our Apollo links
 const httpLink = ApolloLink.from([
   new DebounceLink(100),
   new RetryLink(),
-  new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_URL! }),
+  new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_URL }),
 ])
 const wsLink = new WebSocketLink({
-  uri: process.env.REACT_APP_GRAPHQL_WEBSOCKET!,
+  uri: process.env.REACT_APP_GRAPHQL_WEBSOCKET,
   options: {
     reconnect: true,
   },

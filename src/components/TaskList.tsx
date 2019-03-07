@@ -20,18 +20,19 @@ function determineRatioIntent(ratio: number) {
 }
 
 function TaskList(props: TaskListProps) {
+  const { loading, subscribeToNewTask, subscribeToTaskDeleted, subscribeToTaskDone, tasks } = props
+
   useEffect(() => {
-    const unsubscribeToNewTask = props.subscribeToNewTask()
-    const unsubscribeToTaskDeleted = props.subscribeToTaskDeleted()
-    const unsubscribeToTaskDone = props.subscribeToTaskDone()
+    const unsubscribeToNewTask = subscribeToNewTask()
+    const unsubscribeToTaskDeleted = subscribeToTaskDeleted()
+    const unsubscribeToTaskDone = subscribeToTaskDone()
     return () => {
       unsubscribeToNewTask()
       unsubscribeToTaskDeleted()
       unsubscribeToTaskDone()
     }
-  }, [])
+  }, [subscribeToNewTask, subscribeToTaskDeleted, subscribeToTaskDone])
 
-  const { loading, tasks } = props
   if (loading) return <ProgressBar animate stripes intent={Intent.NONE} value={1} />
   const ratio = tasks.length !== 0 ? tasks.filter(task => task.done).length / tasks.length : 1
 
