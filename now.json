@@ -18,9 +18,10 @@
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
       "dest": "/static/$1"
     },
-    { "src": "^/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "^/images/logo-32x32.png", "dest": "/images/logo-32x32.png" },
+    { "src": "^/images/logo-144x144.png", "dest": "/images/logo-144x144.png" },
     { "src": "^/asset-manifest.json", "dest": "/asset-manifest.json" },
-    { "src": "^/manifest.json", "dest": "/manifest.json" },
+    { "src": "^/manifest.webmanifest", "dest": "/manifest.webmanifest" },
     { "src": "^/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },
     {
       "src": "^/service-worker.js",
