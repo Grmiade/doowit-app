@@ -32,7 +32,7 @@ interface TaskProps {
 }
 
 function Task(props: TaskProps) {
-  const { actions, className, checked, children, disabled, loading } = props
+  const { actions, className, checked, children, disabled, loading, onCheck } = props
   const isInteractive = !disabled && !loading
 
   return (
@@ -42,7 +42,7 @@ function Task(props: TaskProps) {
       elevation={Elevation.ONE}
       onClick={event => {
         event.preventDefault()
-        if (isInteractive && props.onCheck) props.onCheck()
+        if (isInteractive && !!onCheck) onCheck()
       }}
     >
       {loading ? (
