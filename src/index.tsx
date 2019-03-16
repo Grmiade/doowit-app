@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 
 import './style.css'
 import App from './App'
-import * as serviceWorker from './serviceWorker'
+import { register } from './serviceWorker'
 
 ReactDOM.render(<App />, document.getElementById('root'))
-serviceWorker.register()
+
+register()
