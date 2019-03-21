@@ -31,7 +31,7 @@
     "@types/graphql": "14.0.7",
     "@types/jest": "24.0.11",
     "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.2",
+    "@types/react-dom": "16.8.3",
     "@types/styled-components": "4.1.12",
     "apollo": "2.6.2",
     "faker": "4.1.0",
@@ -41,7 +41,7 @@
     "lint-staged": "8.1.5",
     "prettier": "1.16.4",
     "react-scripts": "3.0.0-next.b0cbf2ca",
-    "react-testing-library": "6.0.0",
+    "react-testing-library": "6.0.2",
     "typescript": "3.4.0-rc",
     "typescript-styled-plugin": "0.14.0"
   },

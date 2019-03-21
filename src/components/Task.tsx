@@ -33,22 +33,22 @@ interface TaskProps {
 
 function Task(props: TaskProps) {
   const { actions, className, checked, children, disabled, loading, onCheck } = props
-  const isInteractive = !disabled && !loading
+  const interactive = !disabled && !loading
 
   return (
     <StyledCard
-      interactive={isInteractive}
+      interactive={interactive}
       className={className}
       elevation={Elevation.ONE}
       onClick={event => {
         event.preventDefault()
-        if (isInteractive && !!onCheck) onCheck()
+        if (interactive && !!onCheck) onCheck()
       }}
     >
       {loading ? (
         <StyledSpinner size={16} />
       ) : (
-        <StyledCheckbox disabled={!isInteractive} checked={checked} />
+        <StyledCheckbox disabled={!interactive} checked={checked} />
       )}
       {children}
       {actions && <StyledActions>{actions}</StyledActions>}
