@@ -5,7 +5,8 @@
   "scripts": {
     "start": "react-scripts start",
     "graphql:generate-types": "apollo client:codegen --customScalarsPrefix=GraphQL --globalTypesFile ./src/__generated__/globalTypes.ts --passthroughCustomScalars --target typescript",
-    "lint": "eslint --quiet './src/**'",
+    "lint": "eslint './src/**'",
+    "lint:fix": "eslint --fix './src/**'",
     "now-build": "react-scripts build",
     "test": "react-scripts test"
   },

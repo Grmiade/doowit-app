@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { ProgressBar, Intent } from '@blueprintjs/core'
+import { Intent, ProgressBar } from '@blueprintjs/core'
 
 import { TaskListFragment_tasks } from './__generated__/TaskListFragment'
 import TaskListItem from './TaskListItem'

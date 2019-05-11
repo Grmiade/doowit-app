@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Intent, Button } from '@blueprintjs/core'
+import { Button, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { loader } from 'graphql.macro'
 import { Mutation } from 'react-apollo'
