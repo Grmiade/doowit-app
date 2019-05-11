@@ -12,12 +12,17 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "plugins": [{ "name": "typescript-styled-plugin" }],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ],
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "baseUrl": "./src"
   },
   "include": ["src"]
 }
