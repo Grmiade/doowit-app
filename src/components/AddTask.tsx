@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 
+import { FetchResult, MutationFn } from '@apollo/react-common'
+import { useMutation } from '@apollo/react-hooks'
 import { EditableText } from '@blueprintjs/core'
+import { DataProxy } from 'apollo-cache'
 import { loader } from 'graphql.macro'
-import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
 
 import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask'
@@ -20,45 +22,43 @@ const StyledEditableText = styled(EditableText)`
 function AddTask() {
   const [value, setValue] = useState('')
 
-  return (
-    <Mutation<CreateTask, CreateTaskVariables>
-      mutation={CREATE_TASK}
-      optimisticResponse={{
-        createTask: {
-          __typename: 'Task',
-          done: false,
-          message: value,
-          id: generateFakeId(),
-        },
-      }}
-      update={(proxy, { data }) => {
-        if (!data) return
-        const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
-        if (prev) {
-          const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id)
-          if (alreadyExist) return
+  const [createTask]: [MutationFn<CreateTask, CreateTaskVariables>] = useMutation(CREATE_TASK, {
+    optimisticResponse: {
+      createTask: {
+        __typename: 'Task',
+        done: false,
+        message: value,
+        id: generateFakeId(),
+      },
+    },
+    update(proxy: DataProxy, { data }: FetchResult<CreateTask>) {
+      if (!data) return
+      const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
+      if (prev) {
+        const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id)
+        if (alreadyExist) return
 
-          const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }]
-          proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
-        }
-      }}
-    >
-      {createTask => (
-        <Task disabled>
-          <StyledEditableText
-            placeholder="New Task"
-            value={value}
-            onChange={setValue}
-            onConfirm={value => {
-              if (value !== '') {
-                createTask({ variables: { message: value } })
-                setValue('')
-              }
-            }}
-          />
-        </Task>
-      )}
-    </Mutation>
+        const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }]
+        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
+      }
+    },
+    variables: { message: value },
+  })
+
+  return (
+    <Task disabled>
+      <StyledEditableText
+        placeholder="New Task"
+        value={value}
+        onChange={setValue}
+        onConfirm={value => {
+          if (value !== '') {
+            createTask()
+            setValue('')
+          }
+        }}
+      />
+    </Task>
   )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { ApolloProvider } from '@apollo/react-hooks'
 import { FocusStyleManager } from '@blueprintjs/core'
-import { ApolloProvider } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink } from 'apollo-link'

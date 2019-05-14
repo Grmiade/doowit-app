@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
-import { H1 } from '@blueprintjs/core'
+import { QueryResult } from '@apollo/react-common'
+import { useQuery } from '@apollo/react-hooks'
+import { Callout, H1, Intent } from '@blueprintjs/core'
 import { loader } from 'graphql.macro'
-import { Query } from 'react-apollo'
 
 import { GetTasks } from './__generated__/GetTasks'
 import AddTask from './AddTask'
@@ -21,6 +22,46 @@ interface TasksViewProps {
 }
 
 function TasksView(props: TasksViewProps) {
+  const { data, error, loading, subscribeToMore }: QueryResult<GetTasks> = useQuery(GET_TASKS)
+
+  const subscribeToNewTask = useCallback(() => {
+    return subscribeToMore<TaskCreated>({
+      document: TASK_CREATED,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const newTask = subscriptionData.data.taskCreated
+
+        const alreadyExist = prev.tasks.some(task => task.id === newTask.id)
+        if (alreadyExist) return prev
+
+        return {
+          ...prev,
+          tasks: [...prev.tasks, newTask],
+        }
+      },
+    })
+  }, [subscribeToMore])
+
+  const subscribeToTaskDeleted = useCallback(() => {
+    return subscribeToMore<TaskDeleted>({
+      document: TASK_DELETED,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        return {
+          ...prev,
+          tasks: prev.tasks.filter(task => task.id !== subscriptionData.data.taskDeleted.id),
+        }
+      },
+    })
+  }, [subscribeToMore])
+
+  const subscribeToTaskDone = useCallback(
+    () => subscribeToMore<TaskUpdated>({ document: TASK_UPDATED }),
+    [subscribeToMore],
+  )
+
+  const tasks = !loading && data ? data.tasks : []
+
   return (
     <div className={props.className}>
       <H1>
@@ -29,55 +70,19 @@ function TasksView(props: TasksViewProps) {
         </span>{' '}
         MY TASKS
       </H1>
-      <Query<GetTasks> query={GET_TASKS}>
-        {({ data, loading, error, subscribeToMore }) => {
-          if (error) return error.message
-
-          const tasks = !loading && data ? data.tasks : []
-
-          return (
-            <>
-              <TaskList
-                loading={loading}
-                subscribeToNewTask={() =>
-                  subscribeToMore<TaskCreated>({
-                    document: TASK_CREATED,
-                    updateQuery: (prev, { subscriptionData }) => {
-                      if (!subscriptionData.data) return prev
-                      const newTask = subscriptionData.data.taskCreated
-
-                      const alreadyExist = prev.tasks.some(task => task.id === newTask.id)
-                      if (alreadyExist) return prev
-
-                      return {
-                        ...prev,
-                        tasks: [...prev.tasks, newTask],
-                      }
-                    },
-                  })
-                }
-                subscribeToTaskDeleted={() =>
-                  subscribeToMore<TaskDeleted>({
-                    document: TASK_DELETED,
-                    updateQuery: (prev, { subscriptionData }) => {
-                      if (!subscriptionData.data) return prev
-                      return {
-                        ...prev,
-                        tasks: prev.tasks.filter(
-                          task => task.id !== subscriptionData.data.taskDeleted.id,
-                        ),
-                      }
-                    },
-                  })
-                }
-                subscribeToTaskDone={() => subscribeToMore<TaskUpdated>({ document: TASK_UPDATED })}
-                tasks={tasks}
-              />
-              {!loading && <AddTask />}
-            </>
-          )
-        }}
-      </Query>
+      {error && (
+        <Callout intent={Intent.DANGER}>
+          <p>{error.message}</p>
+        </Callout>
+      )}
+      <TaskList
+        loading={loading}
+        subscribeToNewTask={subscribeToNewTask}
+        subscribeToTaskDeleted={subscribeToTaskDeleted}
+        subscribeToTaskDone={subscribeToTaskDone}
+        tasks={tasks}
+      />
+      {!loading && <AddTask />}
     </div>
   )
 }

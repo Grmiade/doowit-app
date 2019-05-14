@@ -1,8 +1,9 @@
 import React from 'react'
 
+import { MutationFn } from '@apollo/react-common'
+import { useMutation } from '@apollo/react-hooks'
 import { Text } from '@blueprintjs/core'
 import { loader } from 'graphql.macro'
-import { Mutation } from 'react-apollo'
 
 import { TaskFragment } from './__generated__/TaskFragment'
 import { UpdateTask, UpdateTaskVariables } from './__generated__/UpdateTask'
@@ -18,33 +19,31 @@ interface TaskListItemProps {
 
 function TaskListItem(props: TaskListItemProps) {
   const { task } = props
+
   const isFakeTask = isFakeId(task.id)
   const variables = { id: task.id, done: !task.done }
   const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
 
+  const [updateTask]: [MutationFn<UpdateTask, UpdateTaskVariables>] = useMutation(UPDATE_TASK, {
+    optimisticResponse: {
+      updateTask: {
+        __typename: 'Task',
+        ...variables,
+      },
+    },
+    variables,
+    context: debounceOptions,
+  })
+
   return (
-    <Mutation<UpdateTask, UpdateTaskVariables>
-      mutation={UPDATE_TASK}
-      optimisticResponse={{
-        updateTask: {
-          __typename: 'Task',
-          ...variables,
-        },
-      }}
-      variables={variables}
-      context={debounceOptions}
+    <Task
+      checked={task.done}
+      actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
+      loading={isFakeTask}
+      onCheck={() => updateTask()}
     >
-      {updateTask => (
-        <Task
-          checked={task.done}
-          actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
-          loading={isFakeTask}
-          onCheck={() => updateTask()}
-        >
-          <Text>{task.message}</Text>
-        </Task>
-      )}
-    </Mutation>
+      <Text>{task.message}</Text>
+    </Task>
   )
 }
 
