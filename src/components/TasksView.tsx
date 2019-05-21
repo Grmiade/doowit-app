@@ -70,11 +70,13 @@ function TasksView(props: TasksViewProps) {
         </span>{' '}
         MY TASKS
       </H1>
+
       {error && (
         <Callout intent={Intent.DANGER}>
           <p>{error.message}</p>
         </Callout>
       )}
+
       <TaskList
         loading={loading}
         subscribeToNewTask={subscribeToNewTask}
