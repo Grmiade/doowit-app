@@ -37,9 +37,9 @@ function Task(props: TaskProps) {
 
   return (
     <StyledCard
-      interactive={interactive}
       className={className}
       elevation={Elevation.ONE}
+      interactive={interactive}
       onClick={event => {
         event.preventDefault()
         if (interactive && !!onCheck) onCheck()
@@ -48,7 +48,7 @@ function Task(props: TaskProps) {
       {loading ? (
         <StyledSpinner size={16} />
       ) : (
-        <StyledCheckbox disabled={!interactive} checked={checked} />
+        <StyledCheckbox checked={checked} disabled={!interactive} />
       )}
       {children}
       {actions && <StyledActions>{actions}</StyledActions>}

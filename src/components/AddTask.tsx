@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 
-import { FetchResult, MutationFn } from '@apollo/react-common'
 import { useMutation } from '@apollo/react-hooks'
 import { EditableText } from '@blueprintjs/core'
-import { DataProxy } from 'apollo-cache'
 import { loader } from 'graphql.macro'
 import styled from 'styled-components'
 
@@ -22,7 +20,7 @@ const StyledEditableText = styled(EditableText)`
 function AddTask() {
   const [value, setValue] = useState('')
 
-  const [createTask]: [MutationFn<CreateTask, CreateTaskVariables>] = useMutation(CREATE_TASK, {
+  const [createTask] = useMutation<CreateTask, CreateTaskVariables>(CREATE_TASK, {
     optimisticResponse: {
       createTask: {
         __typename: 'Task',
@@ -31,7 +29,7 @@ function AddTask() {
         id: generateFakeId(),
       },
     },
-    update(proxy: DataProxy, { data }: FetchResult<CreateTask>) {
+    update(proxy, { data }) {
       if (!data) return
       const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
       if (prev) {

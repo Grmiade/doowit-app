@@ -1,10 +1,8 @@
 import React from 'react'
 
-import { FetchResult, MutationFn } from '@apollo/react-common'
 import { useMutation } from '@apollo/react-hooks'
 import { Button, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import { DataProxy } from 'apollo-cache'
 import { loader } from 'graphql.macro'
 
 import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask'
@@ -20,14 +18,14 @@ interface DeleteTaskButtonProps {
 }
 
 function DeleteTaskButton(props: DeleteTaskButtonProps) {
-  const [deleteTask]: [MutationFn<DeleteTask, DeleteTaskVariables>] = useMutation(DELETE_TASK, {
+  const [deleteTask] = useMutation<DeleteTask, DeleteTaskVariables>(DELETE_TASK, {
     optimisticResponse: {
       deleteTask: {
         __typename: 'Task',
         id: props.taskId,
       },
     },
-    update(proxy: DataProxy, { data }: FetchResult<DeleteTask>) {
+    update(proxy, { data }) {
       if (!data) return
       const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
       if (prev) {

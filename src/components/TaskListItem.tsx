@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { MutationFn } from '@apollo/react-common'
 import { useMutation } from '@apollo/react-hooks'
 import { Text } from '@blueprintjs/core'
 import { loader } from 'graphql.macro'
@@ -24,7 +23,7 @@ function TaskListItem(props: TaskListItemProps) {
   const variables = { id: task.id, done: !task.done }
   const debounceOptions = { debounceKey: task.id, debounceTimeout: 500 }
 
-  const [updateTask]: [MutationFn<UpdateTask, UpdateTaskVariables>] = useMutation(UPDATE_TASK, {
+  const [updateTask] = useMutation<UpdateTask, UpdateTaskVariables>(UPDATE_TASK, {
     optimisticResponse: {
       updateTask: {
         __typename: 'Task',
@@ -37,8 +36,8 @@ function TaskListItem(props: TaskListItemProps) {
 
   return (
     <Task
-      checked={task.done}
       actions={<DeleteTaskButton disabled={isFakeTask} taskId={task.id} />}
+      checked={task.done}
       loading={isFakeTask}
       onCheck={() => updateTask()}
     >

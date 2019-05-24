@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 
-import { QueryResult } from '@apollo/react-common'
 import { useQuery } from '@apollo/react-hooks'
 import { Callout, H1, Intent } from '@blueprintjs/core'
 import { loader } from 'graphql.macro'
@@ -22,7 +21,7 @@ interface TasksViewProps {
 }
 
 function TasksView(props: TasksViewProps) {
-  const { data, error, loading, subscribeToMore }: QueryResult<GetTasks> = useQuery(GET_TASKS)
+  const { data, error, loading, subscribeToMore } = useQuery<GetTasks>(GET_TASKS)
 
   const subscribeToNewTask = useCallback(() => {
     return subscribeToMore<TaskCreated>({
