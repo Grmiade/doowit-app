@@ -1,6 +1,14 @@
 {
   "extends": "react-app",
   "rules": {
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "callbacksLast": true,
+        "shorthandFirst": true
+      }
+    ],
+
     "sort-imports": [
       "warn",
       {
