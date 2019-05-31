@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useEffect } from 'react'
 
 import { useQuery } from '@apollo/react-hooks'
 import { Callout, H1, Intent } from '@blueprintjs/core'
 import { loader } from 'graphql.macro'
 
 import { GetTasks } from './__generated__/GetTasks'
-import AddTask from './AddTask'
-import TaskList from './TaskList'
 import { TaskCreated } from './__generated__/TaskCreated'
 import { TaskDeleted } from './__generated__/TaskDeleted'
 import { TaskUpdated } from './__generated__/TaskUpdated'
+import AddTask from './AddTask'
+import TaskList from './TaskList'
 
 const GET_TASKS = loader('./GetTasks.graphql')
 const TASK_CREATED = loader('./TaskCreated.graphql')
@@ -23,8 +23,8 @@ interface TasksViewProps {
 function TasksView(props: TasksViewProps) {
   const { data, error, loading, subscribeToMore } = useQuery<GetTasks>(GET_TASKS)
 
-  const subscribeToNewTask = useCallback(() => {
-    return subscribeToMore<TaskCreated>({
+  useEffect(() => {
+    const unsubscribe = subscribeToMore<TaskCreated>({
       document: TASK_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
@@ -39,10 +39,12 @@ function TasksView(props: TasksViewProps) {
         }
       },
     })
-  }, [subscribeToMore])
+    return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const subscribeToTaskDeleted = useCallback(() => {
-    return subscribeToMore<TaskDeleted>({
+  useEffect(() => {
+    const unsubscribe = subscribeToMore<TaskDeleted>({
       document: TASK_DELETED,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
@@ -52,12 +54,15 @@ function TasksView(props: TasksViewProps) {
         }
       },
     })
-  }, [subscribeToMore])
+    return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const subscribeToTaskDone = useCallback(
-    () => subscribeToMore<TaskUpdated>({ document: TASK_UPDATED }),
-    [subscribeToMore],
-  )
+  useEffect(() => {
+    const unsubscribe = subscribeToMore<TaskUpdated>({ document: TASK_UPDATED })
+    return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const tasks = !loading && data ? data.tasks : []
 
@@ -76,13 +81,8 @@ function TasksView(props: TasksViewProps) {
         </Callout>
       )}
 
-      <TaskList
-        loading={loading}
-        subscribeToNewTask={subscribeToNewTask}
-        subscribeToTaskDeleted={subscribeToTaskDeleted}
-        subscribeToTaskDone={subscribeToTaskDone}
-        tasks={tasks}
-      />
+      <TaskList loading={loading} tasks={tasks} />
+
       {!loading && <AddTask />}
     </div>
   )

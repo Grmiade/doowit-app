@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Intent, ProgressBar } from '@blueprintjs/core'
 
@@ -7,9 +7,6 @@ import TaskListItem from './TaskListItem'
 
 interface TaskListProps {
   loading: boolean
-  subscribeToNewTask: () => () => void
-  subscribeToTaskDeleted: () => () => void
-  subscribeToTaskDone: () => () => void
   tasks: TaskListFragment_tasks[]
 }
 
@@ -20,18 +17,7 @@ function determineRatioIntent(ratio: number) {
 }
 
 function TaskList(props: TaskListProps) {
-  const { loading, subscribeToNewTask, subscribeToTaskDeleted, subscribeToTaskDone, tasks } = props
-
-  useEffect(() => {
-    const unsubscribeToNewTask = subscribeToNewTask()
-    const unsubscribeToTaskDeleted = subscribeToTaskDeleted()
-    const unsubscribeToTaskDone = subscribeToTaskDone()
-    return () => {
-      unsubscribeToNewTask()
-      unsubscribeToTaskDeleted()
-      unsubscribeToTaskDone()
-    }
-  }, [subscribeToNewTask, subscribeToTaskDeleted, subscribeToTaskDone])
+  const { loading, tasks } = props
 
   if (loading) return <ProgressBar animate stripes intent={Intent.NONE} value={1} />
   const ratio = tasks.length !== 0 ? tasks.filter(task => task.done).length / tasks.length : 1

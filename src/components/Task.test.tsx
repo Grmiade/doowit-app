@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { fireEvent, render } from '@testing-library/react'
 import faker from 'faker'
-import { fireEvent, render } from 'react-testing-library'
 
 import Task from './Task'
 
