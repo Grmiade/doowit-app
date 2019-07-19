@@ -1,5 +1,0 @@
-fragment TaskFragment on Task {
-  id
-  done
-  message
-}

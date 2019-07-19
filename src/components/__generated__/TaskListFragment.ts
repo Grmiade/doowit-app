@@ -7,13 +7,13 @@
 // ====================================================
 
 export interface TaskListFragment_tasks {
-  __typename: 'Task'
-  id: string
-  done: boolean
-  message: string
+  __typename: 'Task';
+  id: string;
+  done: boolean;
+  message: string;
 }
 
 export interface TaskListFragment {
-  __typename: 'Query'
-  tasks: TaskListFragment_tasks[]
+  __typename: 'Query';
+  tasks: TaskListFragment_tasks[];
 }

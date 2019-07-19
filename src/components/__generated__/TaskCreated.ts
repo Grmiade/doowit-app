@@ -7,12 +7,12 @@
 // ====================================================
 
 export interface TaskCreated_taskCreated {
-  __typename: 'Task'
-  id: string
-  message: string
-  done: boolean
+  __typename: 'Task';
+  id: string;
+  message: string;
+  done: boolean;
 }
 
 export interface TaskCreated {
-  taskCreated: TaskCreated_taskCreated
+  taskCreated: TaskCreated_taskCreated;
 }

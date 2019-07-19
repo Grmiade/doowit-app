@@ -7,14 +7,14 @@
 // ====================================================
 
 export interface DeleteTask_deleteTask {
-  __typename: 'Task'
-  id: string
+  __typename: 'Task';
+  id: string;
 }
 
 export interface DeleteTask {
-  deleteTask: DeleteTask_deleteTask
+  deleteTask: DeleteTask_deleteTask;
 }
 
 export interface DeleteTaskVariables {
-  id: string
+  id: string;
 }

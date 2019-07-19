@@ -7,16 +7,16 @@
 // ====================================================
 
 export interface UpdateTask_updateTask {
-  __typename: 'Task'
-  id: string
-  done: boolean
+  __typename: 'Task';
+  id: string;
+  done: boolean;
 }
 
 export interface UpdateTask {
-  updateTask: UpdateTask_updateTask
+  updateTask: UpdateTask_updateTask;
 }
 
 export interface UpdateTaskVariables {
-  id: string
-  done: boolean
+  id: string;
+  done: boolean;
 }

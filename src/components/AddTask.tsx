@@ -1,24 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { useMutation } from '@apollo/react-hooks'
-import { EditableText } from '@blueprintjs/core'
-import { loader } from 'graphql.macro'
-import styled from 'styled-components'
+import { useMutation } from '@apollo/react-hooks';
+import { EditableText } from '@blueprintjs/core';
+import { gql } from 'graphql.macro';
+import styled from 'styled-components';
 
-import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask'
-import { GetTasks } from './__generated__/GetTasks'
-import Task from './Task'
-import { generateFakeId } from '../utils'
+import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask';
+import { GetTasks } from './__generated__/GetTasks';
+import Task from './Task';
+import { GET_TASKS } from './TasksView';
+import { generateFakeId } from '../utils';
 
-const CREATE_TASK = loader('./CreateTask.graphql')
-const GET_TASKS = loader('./GetTasks.graphql')
+const CREATE_TASK = gql`
+  mutation CreateTask($message: String!) {
+    createTask(message: $message) {
+      id
+      message
+      done
+    }
+  }
+`;
 
 const StyledEditableText = styled(EditableText)`
   width: 100%;
-`
+`;
 
 function AddTask() {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('');
 
   const [createTask] = useMutation<CreateTask, CreateTaskVariables>(CREATE_TASK, {
     optimisticResponse: {
@@ -30,18 +38,18 @@ function AddTask() {
       },
     },
     update(proxy, { data }) {
-      if (!data) return
-      const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
+      if (!data) return;
+      const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS });
       if (prev) {
-        const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id)
-        if (alreadyExist) return
+        const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id);
+        if (alreadyExist) return;
 
-        const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }]
-        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
+        const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }];
+        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
       }
     },
     variables: { message: value },
-  })
+  });
 
   return (
     <Task disabled>
@@ -51,13 +59,13 @@ function AddTask() {
         onChange={setValue}
         onConfirm={value => {
           if (value !== '') {
-            createTask()
-            setValue('')
+            createTask();
+            setValue('');
           }
         }}
       />
     </Task>
-  )
+  );
 }
 
-export default AddTask
+export default AddTask;

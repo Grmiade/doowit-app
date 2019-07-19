@@ -1,7 +1,0 @@
-subscription TaskCreated {
-  taskCreated {
-    id
-    message
-    done
-  }
-}

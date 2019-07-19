@@ -7,16 +7,16 @@
 // ====================================================
 
 export interface CreateTask_createTask {
-  __typename: 'Task'
-  id: string
-  message: string
-  done: boolean
+  __typename: 'Task';
+  id: string;
+  message: string;
+  done: boolean;
 }
 
 export interface CreateTask {
-  createTask: CreateTask_createTask
+  createTask: CreateTask_createTask;
 }
 
 export interface CreateTaskVariables {
-  message: string
+  message: string;
 }

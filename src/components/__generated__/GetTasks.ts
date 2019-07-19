@@ -7,13 +7,13 @@
 // ====================================================
 
 export interface GetTasks_tasks {
-  __typename: 'Task'
-  id: string
-  done: boolean
-  message: string
+  __typename: 'Task';
+  id: string;
+  done: boolean;
+  message: string;
 }
 
 export interface GetTasks {
-  __typename: 'Query'
-  tasks: GetTasks_tasks[]
+  __typename: 'Query';
+  tasks: GetTasks_tasks[];
 }

@@ -1,20 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-import { useMutation } from '@apollo/react-hooks'
-import { Button, Intent } from '@blueprintjs/core'
-import { IconNames } from '@blueprintjs/icons'
-import { loader } from 'graphql.macro'
+import { useMutation } from '@apollo/react-hooks';
+import { Button, Intent } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
+import { gql } from 'graphql.macro';
 
-import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask'
-import { GetTasks } from './__generated__/GetTasks'
+import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask';
+import { GetTasks } from './__generated__/GetTasks';
+import { GET_TASKS } from './TasksView';
 
-const DELETE_TASK = loader('./DeleteTask.graphql')
-const GET_TASKS = loader('./GetTasks.graphql')
+const DELETE_TASK = gql`
+  mutation DeleteTask($id: ID!) {
+    deleteTask(id: $id) {
+      id
+    }
+  }
+`;
 
 interface DeleteTaskButtonProps {
-  className?: string
-  disabled?: boolean
-  taskId: string
+  className?: string;
+  disabled?: boolean;
+  taskId: string;
 }
 
 function DeleteTaskButton(props: DeleteTaskButtonProps) {
@@ -26,15 +32,15 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
       },
     },
     update(proxy, { data }) {
-      if (!data) return
-      const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS })
+      if (!data) return;
+      const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS });
       if (prev) {
-        const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id)
-        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } })
+        const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id);
+        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
       }
     },
     variables: { id: props.taskId },
-  })
+  });
 
   return (
     <Button
@@ -44,11 +50,11 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
       icon={IconNames.TRASH}
       intent={Intent.DANGER}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        event.stopPropagation()
-        deleteTask()
+        event.stopPropagation();
+        deleteTask();
       }}
     />
-  )
+  );
 }
 
-export default DeleteTaskButton
+export default DeleteTaskButton;

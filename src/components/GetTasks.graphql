@@ -1,5 +1,0 @@
-#import "./TaskListFragment.graphql"
-
-query GetTasks {
-  ...TaskListFragment
-}

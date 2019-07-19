@@ -7,10 +7,10 @@
 // ====================================================
 
 export interface TaskDeleted_taskDeleted {
-  __typename: 'Task'
-  id: string
+  __typename: 'Task';
+  id: string;
 }
 
 export interface TaskDeleted {
-  taskDeleted: TaskDeleted_taskDeleted
+  taskDeleted: TaskDeleted_taskDeleted;
 }

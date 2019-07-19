@@ -7,8 +7,8 @@
 // ====================================================
 
 export interface TaskFragment {
-  __typename: 'Task'
-  id: string
-  done: boolean
-  message: string
+  __typename: 'Task';
+  id: string;
+  done: boolean;
+  message: string;
 }
