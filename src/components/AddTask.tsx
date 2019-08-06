@@ -39,6 +39,7 @@ function AddTask() {
     },
     update(proxy, { data }) {
       if (!data) return;
+
       const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS });
       if (prev) {
         const alreadyExist = prev.tasks.some(task => task.id === data.createTask.id);
@@ -46,6 +47,11 @@ function AddTask() {
 
         const tasks = [...prev.tasks, { __typename: 'Task', ...data.createTask }];
         proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
+      } else {
+        proxy.writeQuery({
+          query: GET_TASKS,
+          data: { tasks: { __typename: 'Task', ...data.createTask } },
+        });
       }
     },
     variables: { message: value },

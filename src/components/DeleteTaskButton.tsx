@@ -33,11 +33,12 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
     },
     update(proxy, { data }) {
       if (!data) return;
+
       const prev = proxy.readQuery<GetTasks>({ query: GET_TASKS });
-      if (prev) {
-        const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id);
-        proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
-      }
+      if (!prev) return;
+
+      const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id);
+      proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
     },
     variables: { id: props.taskId },
   });
