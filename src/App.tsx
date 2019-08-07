@@ -42,8 +42,7 @@ const wsLink = new WebSocketLink({
 const link = ApolloLink.split(
   ({ query }) => {
     const definition = getMainDefinition(query);
-    if (definition.kind !== 'OperationDefinition') return false;
-    return definition.operation === 'subscription';
+    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
   },
   wsLink,
   httpLink,

@@ -9,7 +9,7 @@ import { DeleteTask, DeleteTaskVariables } from './__generated__/DeleteTask';
 import { GetTasks } from './__generated__/GetTasks';
 import { GET_TASKS } from './TasksView';
 
-const DELETE_TASK = gql`
+export const DELETE_TASK = gql`
   mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
       id
@@ -24,7 +24,7 @@ interface DeleteTaskButtonProps {
 }
 
 function DeleteTaskButton(props: DeleteTaskButtonProps) {
-  const [deleteTask] = useMutation<DeleteTask, DeleteTaskVariables>(DELETE_TASK, {
+  const [deleteTask, { loading }] = useMutation<DeleteTask, DeleteTaskVariables>(DELETE_TASK, {
     optimisticResponse: {
       deleteTask: {
         __typename: 'Task',
@@ -38,7 +38,7 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
       if (!prev) return;
 
       const tasks = prev.tasks.filter(task => task.id !== data.deleteTask.id);
-      proxy.writeQuery({ query: GET_TASKS, data: { ...prev, tasks } });
+      proxy.writeQuery<GetTasks>({ query: GET_TASKS, data: { ...prev, tasks } });
     },
     variables: { id: props.taskId },
   });
@@ -50,6 +50,7 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
       disabled={props.disabled}
       icon={IconNames.TRASH}
       intent={Intent.DANGER}
+      loading={loading}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         event.stopPropagation();
         deleteTask();
