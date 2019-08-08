@@ -1,0 +1,15 @@
+# testing
+coverage/
+
+# production
+.github/
+build/
+
+# development
+.vscode/
+.env
+apollo.config.js
+.prettierrc
+.eslintrc
+.eslintignore
+.editorconfig

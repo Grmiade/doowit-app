@@ -1,32 +1,8 @@
 {
-  "version": 2,
-  "public": true,
-  "name": "doowit-app",
-  "alias": "doowit.grmiade.tech",
   "build": {
     "env": {
       "REACT_APP_GRAPHQL_URL": "https://doowit-server.grmiade.tech/graphql",
       "REACT_APP_GRAPHQL_WEBSOCKET": "wss://doowit-server.grmiade.tech/graphql"
     }
-  },
-  "builds": [
-    { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
-  ],
-  "routes": [
-    {
-      "src": "^/static/(.*)",
-      "headers": { "cache-control": "s-maxage=31536000,immutable" },
-      "dest": "/static/$1"
-    },
-    { "src": "^/images/(.*)", "dest": "/images/$1" },
-    { "src": "^/asset-manifest.json", "dest": "/asset-manifest.json" },
-    { "src": "^/manifest.webmanifest", "dest": "/manifest.webmanifest" },
-    { "src": "^/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },
-    {
-      "src": "^/service-worker.js",
-      "headers": { "cache-control": "s-maxage=0" },
-      "dest": "/service-worker.js"
-    },
-    { "src": "^/(.*)", "headers": { "cache-control": "s-maxage=0" }, "dest": "/index.html" }
-  ]
+  }
 }
