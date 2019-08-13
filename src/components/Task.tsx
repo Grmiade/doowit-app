@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Card, Checkbox, Elevation, Spinner } from '@blueprintjs/core';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const StyledCard = styled(Card)`
   display: flex;

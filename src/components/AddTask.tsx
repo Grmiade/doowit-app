@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { EditableText } from '@blueprintjs/core';
 import { gql } from 'graphql.macro';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import { CreateTask, CreateTaskVariables } from './__generated__/CreateTask';
 import { GetTasks } from './__generated__/GetTasks';

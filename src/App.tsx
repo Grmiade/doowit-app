@@ -10,7 +10,7 @@ import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 import TasksView from './components/TasksView';
 
