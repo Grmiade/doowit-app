@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "graphql:generate-types": "apollo client:codegen --globalTypesFile ./src/__generated__/globalTypes.ts --target typescript",
-    "lint": "eslint './src/**'",
-    "lint:fix": "eslint --fix './src/**'",
     "build": "react-scripts build",
+    "deploy:prod": "now --target production",
+    "graphql:codegen": "apollo client:codegen --globalTypesFile ./src/__generated__/globalTypes.ts --target typescript",
+    "lint:fix": "eslint --fix './src/**'",
+    "lint": "eslint './src/**'",
+    "start": "react-scripts start",
     "test": "react-scripts test"
   },
   "dependencies": {
@@ -48,7 +49,7 @@
     "lint-staged": "^9.2.1",
     "now": "^16.1.1",
     "prettier": "^1.18.2",
-    "react-scripts": "3.1.0",
+    "react-scripts": "3.1.1",
     "typescript": "^3.5.3",
     "typescript-styled-plugin": "^0.14.0"
   },
