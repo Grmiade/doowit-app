@@ -28,29 +28,25 @@ interface TaskProps {
   checked: boolean;
   disabled: boolean;
   loading: boolean;
-  onCheck?: () => void;
+  onCheck?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 function Task(props: TaskProps) {
   const { actions, className, checked, children, disabled, loading, onCheck } = props;
-  const interactive = !disabled && !loading;
 
   return (
     <StyledCard
       className={className}
       elevation={Elevation.ONE}
-      interactive={interactive}
+      interactive={!disabled}
       onClick={event => {
         event.preventDefault();
-        if (interactive && !!onCheck) onCheck();
+        if (onCheck) onCheck(event);
       }}
     >
-      {loading ? (
-        <StyledSpinner size={16} />
-      ) : (
-        <StyledCheckbox checked={checked} disabled={!interactive} />
-      )}
+      <StyledCheckbox checked={checked} disabled={disabled} />
       {children}
+      {loading && <StyledSpinner size={16} />}
       {actions && <StyledActions>{actions}</StyledActions>}
     </StyledCard>
   );

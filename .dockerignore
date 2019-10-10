@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# production
+build/
+
+# development
+.git/
+.vscode/
+.env
+apollo.config.js
+
+# test
+coverage/
+
+# misc
+.DS_Store

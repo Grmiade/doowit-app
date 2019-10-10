@@ -69,8 +69,7 @@ function TasksView(props: TasksViewProps) {
       },
     });
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [subscribeToMore]);
 
   useEffect(() => {
     const unsubscribe = subscribeToMore<TaskDeleted>({
@@ -84,16 +83,14 @@ function TasksView(props: TasksViewProps) {
       },
     });
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [subscribeToMore]);
 
   useEffect(() => {
     const unsubscribe = subscribeToMore<TaskUpdated>({ document: TASK_UPDATED });
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [subscribeToMore]);
 
-  const tasks = !loading && data ? data.tasks : [];
+  const tasks = data ? data.tasks : [];
 
   return (
     <div className={props.className}>

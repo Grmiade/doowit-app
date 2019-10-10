@@ -1,0 +1,13 @@
+FROM node:12-alpine
+WORKDIR /usr/node/app
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+COPY src/ ./src/
+COPY babel-plugin-macros.config.js tsconfig.json ./
+
+ENV CI true
+ENV NODE_ENV test
+
+CMD yarn run test

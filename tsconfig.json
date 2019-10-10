@@ -17,6 +17,7 @@
         "name": "typescript-styled-plugin"
       }
     ],
+    "removeComments": true,
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,

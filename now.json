@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "REACT_APP_GRAPHQL_URL": "https://doowit-server.grmiade.tech/graphql",
-      "REACT_APP_GRAPHQL_WEBSOCKET": "wss://doowit-server.grmiade.tech/graphql"
-    }
-  }
-}
